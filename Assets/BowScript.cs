@@ -6,12 +6,12 @@ public class BowScript : MonoBehaviour {
 	// Use this for initialization
 	//public GameObject Arrow;
 	public GameObject Bow;
-	Vector3 initPosArrow;
-	Vector3 endPosArrow;
+	//Vector3 initPosArrow;
+	//Vector3 endPosArrow;
 	void Start()
 	{
 		//initPosArrow = Arrow.transform.localPosition;
-		endPosArrow = initPosArrow - new Vector3(0, 0, 3);
+		//endPosArrow = initPosArrow - new Vector3(0, 0, 3);
 	}
 	
 	// Update is called once per frame
