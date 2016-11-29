@@ -7,14 +7,17 @@ public class Controller : MonoBehaviour {
 	public GameObject BulletStartPoint;
 	public GameObject ArrowStartPoint;
 	public GameObject ShotPoint;
-	public GameObject Ethan;
 
-	private Vector3 firstpoint; //change type on Vector3
-	private Vector3 secondpoint;
- 	private float xAngle = 0.0f; //angle for axes x for rotation
-	private float yAngle = 0.0f;
-	private float xAngTemp = 0.0f; //temp variable for angle
-	private float yAngTemp = 0.0f;
+	//private Vector3 firstpoint; //change type on Vector3
+	//private Vector3 secondpoint;
+ 	//private float xAngle = 0.0f; //angle for axes x for rotation
+	//private float yAngle = 0.0f;
+	//private float xAngTemp = 0.0f; //temp variable for angle
+	//private float yAngTemp = 0.0f;
+
+	public GameObject direction;
+	float bX;
+	float bY;
 	public float rotationspeed;
 
 	public Text PowerLabel;
@@ -23,17 +26,16 @@ public class Controller : MonoBehaviour {
 	public Scrollbar PowerGuage;
 
 	public GameObject Arrow;
-	public GameObject Shooter;
+
 	public float MaxPower;
 	public float MinPower;
 	public float powerTic;
 	public GameObject Dot;
 
 	public RectTransform aimPoint;
-	Vector3 BeforeAimPoint;
-
-	//float accuracy = 90.0f;
-	//GameObject[] Bullets;
+	//Vector3 BeforeAimPoint;
+	public GameObject Origin;
+	public GameObject Direction;
 
 	bool isBtnPressed;
 	public float power;
@@ -46,7 +48,7 @@ public class Controller : MonoBehaviour {
 	float gravity;
 	float angle;
 	float Xangle;
-	//public BowScript bow;
+
 	public GameObject BowObject;
 
 	float reloadTime;
@@ -59,25 +61,17 @@ public class Controller : MonoBehaviour {
 	}
 	void Start()
 	{
-		xAngle = 0.0f;
-		yAngle = 0.0f;
-	}
-
-	public void ResetEthan()
-	{
-		Ethan.transform.position = new Vector3(0, 0.6f, 0);
-		Ethan.transform.rotation = Quaternion.identity;
+		//xAngle = 0.0f;
+		//yAngle = 0.0f;
 	}
 
 	public void ShotArrow()
 	{
-		Aim(aimPoint.position);
+		Aim();
 		ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
-		GameObject arrow = Instantiate(Arrow, BulletStartPoint.transform.position, Quaternion.Euler(yAngle, xAngle, 0)) as GameObject;
+		GameObject arrow = Instantiate(Arrow, BulletStartPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
 		GameObject _startPoint = Instantiate(ShotPoint);
 		arrow.transform.SetParent(_startPoint.transform);
-		//arrow.GetComponent<Arrow>().Shot(power, (360 - Camera.main.transform.eulerAngles.x)));
-
 		arrow.GetComponent<Arrow>().Shot(power, angle);
 	}
 
@@ -119,126 +113,75 @@ public class Controller : MonoBehaviour {
 		{
 			case TouchPhase.Began:
 				// TODO
-				firstpoint = touchPosition;
+				//firstpoint = touchPosition;
 				//Debug.Log("FirstPoint: " + firstpoint);
-				xAngTemp = xAngle;
-				yAngTemp = yAngle;
-				BeforeAimPoint = aimPoint.position;
+				//xAngTemp = xAngle;
+				//yAngTemp = yAngle;
+				//BeforeAimPoint = aimPoint.position;
+				bX = touchPosition.x;
+				bY = touchPosition.y;
 				break;
 			case TouchPhase.Moved:
 				// TODO
-				secondpoint = touchPosition;
+				//secondpoint = touchPosition;
 
-				float dx = (secondpoint.x - firstpoint.x) ;
-				float dy = (secondpoint.y - firstpoint.y) ;
-				aimPoint.position = BeforeAimPoint + (new Vector3(dx, dy, 0));
-
+				//float dx = (secondpoint.x - firstpoint.x);
+				//float dy = (secondpoint.y - firstpoint.y);
+				//Debug.Log(bX + " " + bY);
+				//aimPoint.position = BeforeAimPoint + (new Vector3(dx, dy, 0));
+				aimPoint.position += new Vector3(touchPosition.x-bX, touchPosition.y-bY, 0);
+				//if (Camera.main.fieldOfView > 60)
+				//{
+				//	Camera.main.fieldOfView -= 0.5f;
+				//}
+				bX = touchPosition.x;
+				bY = touchPosition.y;
 				break;
 			case TouchPhase.Ended:
 				// TODO
 				//Debug.Log("Degree: " + (360-Camera.main.transform.eulerAngles.x));
 				ShotArrow();
+				//Camera.main.fieldOfView = 100;
 				break;
 		}
 	}
 
-	public void IncreasePower()
+	void Aim()
 	{
-		//StartCoroutine(IEIncreasePower());
-		//power = 1.5f;
-	}
-
-	public void releasePower()
-	{
-		isBtnPressed = false;
-		//power = 2;
-		//Debug.Log("Degree: " + Camera.main.transform.eulerAngles.x);
-		ShotArrow();
-		//power = 0;
-	}
-
-	IEnumerator IEIncreasePower()
-	{
-		isBtnPressed = true;
-		while (isBtnPressed)
-		{
-			if (power < MaxPower)
-				power += Time.deltaTime * powerTic;
-			else
-				power = MaxPower;
-			yield return new WaitForEndOfFrame();
-		}
-	}
-
-	//void CreateLine(float angle)
-	//{
-	//	Vector3 v1 = Vector3.zero;
-	//	Timedir = 0;
-
-	//	float da = angle*Mathf.Deg2Rad;
-	//	//Debug.Log("Degree: " + angle + " Deg2Rad: " + da);
-	//	while (Timedir < 100)
-	//	{
-	//		float realPower = 1;
-	//		v1.z = realPower * Mathf.Cos(da) * Timedir;
-	//		v1.y = realPower * Mathf.Sin(da) * Timedir - (9.8f / 60 * Mathf.Pow(Timedir, 2) / 2);
-	//		Timedir += 0.3f;
-	//		Instantiate(Ao, v1, Quaternion.identity);
-	//	}
-	//}
-
-	void Aim(Vector3 Point)
-	{
-		Vector3 accu = Random.insideUnitSphere;
-		Vector3 AccuPoint = Point + accu;
-
-		//Ray ray = Camera.main.ScreenPointToRay(Point);
-		Ray ray = Camera.main.ScreenPointToRay(AccuPoint);
+		Ray ray = Camera.main.ScreenPointToRay(aimPoint.position);
+		Origin.transform.position = ray.origin;
+		Direction.transform.position = ray.direction;
+		Debug.Log(ray+" ");
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
-			//if (hit.transform.gameObject.tag != "Target")
-			//{
-
+			Debug.Log(hit.point);
 			float deg = Mathf.Atan2(hit.point.x - ShotPoint.transform.position.x, hit.point.z-ShotPoint.transform.position.z) * Mathf.Rad2Deg;
-			Debug.Log(ray);
-			Debug.Log("Target: " + hit.point + " Accu: " + accu + " Deg: " + deg);
 			Xangle = deg;
-				//hit.point = hit.point + accu;
-				float dx = hit.point.z - ArrowStartPoint.transform.position.z;
-				float dy = hit.point.y - ArrowStartPoint.transform.position.y;
-
-				//float degreeU = 
-				//	Mathf.Atan2(
-				//		(power * power)
-				//		 + Mathf.Sqrt(
-				//		Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
-				//		, (gravity * dx));
-				float degreeD =
-					Mathf.Atan2(
-						(power * power)
-						 - Mathf.Sqrt(
-							 Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power)) , (gravity * dx));
-				angle = degreeD * Mathf.Rad2Deg;
-				if (System.Single.IsNaN(angle))
-				{
-					angle = 45;
-				}
-				//DrawBulletLine(power, angle);
-
-			//}
+			Debug.Log("Deg: " + Xangle);
+			float dx = hit.point.z - ArrowStartPoint.transform.position.z;
+			float dy = hit.point.y - ArrowStartPoint.transform.position.y;
+			//float degreeU = 
+			//	Mathf.Atan2(
+			//		(power * power)
+			//		 + Mathf.Sqrt(
+			//		Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
+			//		, (gravity * dx));
+			float degreeD =
+				Mathf.Atan2(
+					(power * power)
+					 - Mathf.Sqrt(
+						 Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power)) , (gravity * dx));
+			angle = degreeD * Mathf.Rad2Deg;
+			if (System.Single.IsNaN(angle))
+			{
+				angle = 45;
+			}
 		}
 		else {
 			Debug.Log("Sky");
 		}
 	}
-
-	//public void OnChangeValue()
-	//{
-		//PowerLabel.text = (PowerGuage.value * 100).ToString("F1")+" %" ;
-		//power = MinPower + PowerGuage.value * (MaxPower - MinPower);
-		//Debug.Log("Power:: " + (PowerGuage.value * 100).ToString("F1"));
-	//}
 
 	public void UITouchOn()
 	{

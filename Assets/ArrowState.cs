@@ -16,7 +16,7 @@ public class ArrowState : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("Tag:" + other.tag);
-		if (other.CompareTag("Object"))
+		if (other.CompareTag("Target"))
 		{
 			arrowCtrl.isMoving = false;
 			//gameObject.transform.SetParent(null);
