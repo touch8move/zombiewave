@@ -34,8 +34,8 @@ public class Controller : MonoBehaviour {
 
 	public RectTransform aimPoint;
 	//Vector3 BeforeAimPoint;
-	public GameObject Origin;
-	public GameObject Direction;
+	//public GameObject Origin;
+	//public GameObject Direction;
 
 	bool isBtnPressed;
 	public float power;
@@ -51,11 +51,13 @@ public class Controller : MonoBehaviour {
 
 	public GameObject BowObject;
 
-	float reloadTime;
+	public Camera camera;
+
+	//float reloadTime;
 
 	void Awake()
 	{
-		reloadTime = 2.0f;
+		//reloadTime = 2.0f;
 		power = 3f;
 		gravity = 9.8f / 60;
 	}
@@ -69,7 +71,7 @@ public class Controller : MonoBehaviour {
 	{
 		Aim();
 		ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
-		GameObject arrow = Instantiate(Arrow, BulletStartPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
+		GameObject arrow = Instantiate(Arrow, ArrowStartPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
 		GameObject _startPoint = Instantiate(ShotPoint);
 		arrow.transform.SetParent(_startPoint.transform);
 		arrow.GetComponent<Arrow>().Shot(power, angle);
@@ -78,7 +80,7 @@ public class Controller : MonoBehaviour {
 	void Update()
 	{
 		//UpdateLabel();
-		//DrawBulletLine(power, 360 - Camera.main.transform.eulerAngles.x);
+		//DrawBulletLine(power, 360 - camera.transform.eulerAngles.x);
 
 		if (isUITouch == false)
 		{
@@ -130,28 +132,29 @@ public class Controller : MonoBehaviour {
 				//Debug.Log(bX + " " + bY);
 				//aimPoint.position = BeforeAimPoint + (new Vector3(dx, dy, 0));
 				aimPoint.position += new Vector3(touchPosition.x-bX, touchPosition.y-bY, 0);
-				//if (Camera.main.fieldOfView > 60)
+				//if (camera.fieldOfView > 60)
 				//{
-				//	Camera.main.fieldOfView -= 0.5f;
+				//	camera.fieldOfView -= 0.5f;
 				//}
 				bX = touchPosition.x;
 				bY = touchPosition.y;
 				break;
 			case TouchPhase.Ended:
 				// TODO
-				//Debug.Log("Degree: " + (360-Camera.main.transform.eulerAngles.x));
+				//Debug.Log("Degree: " + (360-camera.transform.eulerAngles.x));
 				ShotArrow();
-				//Camera.main.fieldOfView = 100;
+				//camera.fieldOfView = 100;
 				break;
 		}
 	}
 
 	void Aim()
 	{
-		Ray ray = Camera.main.ScreenPointToRay(aimPoint.position);
-		Origin.transform.position = ray.origin;
-		Direction.transform.position = ray.direction;
-		Debug.Log(ray+" ");
+		Ray ray = camera.ScreenPointToRay(aimPoint.position);
+		//Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+		Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
+		Debug.Log(ray);
+
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
