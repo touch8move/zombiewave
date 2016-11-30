@@ -84,7 +84,7 @@ public class Controller : MonoBehaviour {
 	}
 	void GetGenTime()
 	{
-		GenTime = Random.Range(0.5f, 2.0f);
+		GenTime = Random.Range(1.0f, 2.0f);
 	}
 	void UpdateLabel()
 	{
@@ -224,7 +224,7 @@ public class Controller : MonoBehaviour {
 	void GenerateEnemy()
 	{
 		int enemyIndex = Random.Range(0, Enemys.Length);
-		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(-18, 0, Random.Range(-10.0f,0.0f)), Quaternion.Euler(0,90,0)) as GameObject;
+		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(-18, 0, Random.Range(-5.0f,5.0f)), Quaternion.Euler(0,90,0)) as GameObject;
 		Debug.Log("Gen Enemy " + enemyIndex);
 	}
 }

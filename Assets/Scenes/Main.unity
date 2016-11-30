@@ -605,7 +605,6 @@ MonoBehaviour:
   aimPoint: {fileID: 994612407}
   power: 5
   BowObject: {fileID: 1921886174}
-  PlayerHP: 100
   Point: 0
   camera: {fileID: 1892459692}
   HPLabel: {fileID: 944833046}
@@ -1088,7 +1087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1921886175
 Transform:
   m_ObjectHideFlags: 0
