@@ -3,44 +3,23 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Controller : MonoBehaviour {
-	public GameObject Bullet;
-	public GameObject BulletStartPoint;
+	//public GameObject Bullet;
+	//public GameObject BulletStartPoint;
 	public GameObject ArrowStartPoint;
 	public GameObject ShotPoint;
 
-	//private Vector3 firstpoint; //change type on Vector3
-	//private Vector3 secondpoint;
- 	//private float xAngle = 0.0f; //angle for axes x for rotation
-	//private float yAngle = 0.0f;
-	//private float xAngTemp = 0.0f; //temp variable for angle
-	//private float yAngTemp = 0.0f;
+	public GameObject[] Enemys;
 
-	public GameObject direction;
 	float bX;
 	float bY;
 	public float rotationspeed;
 
-	public Text PowerLabel;
-	public Text XDegree;
-	public Text YDegree;
-	public Scrollbar PowerGuage;
-
 	public GameObject Arrow;
 
-	public float MaxPower;
-	public float MinPower;
-	public float powerTic;
-	public GameObject Dot;
-
 	public RectTransform aimPoint;
-	//Vector3 BeforeAimPoint;
-	//public GameObject Origin;
-	//public GameObject Direction;
 
-	bool isBtnPressed;
 	public float power;
 	float Timedir;
-	public GameObject Ao;
 
 	float OnOffTimer;
 	bool isUITouch;
@@ -48,25 +27,37 @@ public class Controller : MonoBehaviour {
 	float gravity;
 	float angle;
 	float Xangle;
-
+	float GenTime;
+	float GenCurrentTime;
 	public GameObject BowObject;
-
+	public int PlayerHP;
+	public int Point;
 	public Camera camera;
+	bool isGameOn;
 
-	//float reloadTime;
+	public Text HPLabel;
+	public Text PointLabel;
 
 	void Awake()
 	{
-		//reloadTime = 2.0f;
 		power = 3f;
 		gravity = 9.8f / 60;
 	}
 	void Start()
 	{
-		//xAngle = 0.0f;
-		//yAngle = 0.0f;
+		GetGenTime();
+		//isGameOn = true;
+		GameStart();
+	}
+	public void GameStop()
+	{
+		isGameOn = false;
 	}
 
+	public void GameStart()
+	{
+		isGameOn = true;
+	}
 	public void ShotArrow()
 	{
 		Aim();
@@ -76,34 +67,58 @@ public class Controller : MonoBehaviour {
 		arrow.transform.SetParent(_startPoint.transform);
 		arrow.GetComponent<Arrow>().Shot(power, angle);
 	}
-
+	void GetGenTime()
+	{
+		GenTime = Random.Range(0.5f, 2.0f);
+	}
+	void UpdateLabel()
+	{
+		HPLabel.text = "HP : "+PlayerHP.ToString("N0");
+		PointLabel.text = "Point : " + Point.ToString("N0");
+	}
+	void CheckHP()
+	{
+		if (PlayerHP <= 0)
+		{
+			isGameOn = false;
+		}
+	}
 	void Update()
 	{
-		//UpdateLabel();
-		//DrawBulletLine(power, 360 - camera.transform.eulerAngles.x);
-
-		if (isUITouch == false)
+		CheckHP();
+		UpdateLabel();
+		if (isGameOn)
 		{
-			foreach (Touch touch in Input.touches)
+			GenCurrentTime += Time.deltaTime;
+			if (GenCurrentTime > GenTime)
 			{
-				HandleTouch(touch.fingerId, (touch.position), touch.phase);
+				GetGenTime();
+				GenCurrentTime = 0;
+				GenerateEnemy();
 			}
-
-			// Simulate touch events from mouse events
-			if (Input.touchCount == 0)
+			if (isUITouch == false)
 			{
-				if (Input.GetMouseButtonDown(0))
+				foreach (Touch touch in Input.touches)
 				{
-					//Debug.Log("MousePoint:" + (Input.mousePosition));
-					HandleTouch(10, (Input.mousePosition), TouchPhase.Began);
+					HandleTouch(touch.fingerId, (touch.position), touch.phase);
 				}
-				if (Input.GetMouseButton(0))
+
+				// Simulate touch events from mouse events
+				if (Input.touchCount == 0)
 				{
-					HandleTouch(10, (Input.mousePosition), TouchPhase.Moved);
-				}
-				if (Input.GetMouseButtonUp(0))
-				{
-					HandleTouch(10, (Input.mousePosition), TouchPhase.Ended);
+					if (Input.GetMouseButtonDown(0))
+					{
+						//Debug.Log("MousePoint:" + (Input.mousePosition));
+						HandleTouch(10, (Input.mousePosition), TouchPhase.Began);
+					}
+					if (Input.GetMouseButton(0))
+					{
+						HandleTouch(10, (Input.mousePosition), TouchPhase.Moved);
+					}
+					if (Input.GetMouseButtonUp(0))
+					{
+						HandleTouch(10, (Input.mousePosition), TouchPhase.Ended);
+					}
 				}
 			}
 		}
@@ -125,12 +140,7 @@ public class Controller : MonoBehaviour {
 				break;
 			case TouchPhase.Moved:
 				// TODO
-				//secondpoint = touchPosition;
 
-				//float dx = (secondpoint.x - firstpoint.x);
-				//float dy = (secondpoint.y - firstpoint.y);
-				//Debug.Log(bX + " " + bY);
-				//aimPoint.position = BeforeAimPoint + (new Vector3(dx, dy, 0));
 				aimPoint.position += new Vector3(touchPosition.x-bX, touchPosition.y-bY, 0);
 				//if (camera.fieldOfView > 60)
 				//{
@@ -194,5 +204,12 @@ public class Controller : MonoBehaviour {
 	public void UITouchOff()
 	{
 		isUITouch = false;
+	}
+
+	void GenerateEnemy()
+	{
+		int enemyIndex = Random.Range(0, Enemys.Length);
+		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(-18, 0, Random.Range(-10.0f,0.0f)), Quaternion.Euler(0,90,0)) as GameObject;
+		Debug.Log("Gen Enemy " + enemyIndex);
 	}
 }

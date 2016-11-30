@@ -55,11 +55,11 @@ GameObject:
   - 4: {fileID: 4000013024170362}
   - 95: {fileID: 95000012207035204}
   - 54: {fileID: 54000011057187472}
-  - 114: {fileID: 114000010186624886}
-  - 114: {fileID: 114000010681290032}
   - 82: {fileID: 82000013837518292}
   - 114: {fileID: 114000010706200716}
   - 136: {fileID: 136000012494861170}
+  - 114: {fileID: 114000010159032316}
+  - 114: {fileID: 114000012362802080}
   m_Layer: 12
   m_Name: ZomBear
   m_TagString: Target
@@ -145,10 +145,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011662920290}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2, y: 0, z: 2.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children:
   - {fileID: 4000012538575882}
   - {fileID: 4000010132993660}
@@ -309,7 +309,7 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114000010186624886
+--- !u!114 &114000010159032316
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -317,25 +317,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011662920290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa10cc87aff30c04dbe0aa648f5b6adc, type: 3}
+  m_Script: {fileID: 11500000, guid: 94f6618a0da65fa45b24d5105d5d8422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
-  currentHealth: 0
-  sinkSpeed: 2.5
-  scoreValue: 10
-  deathClip: {fileID: 8300000, guid: 62366b8d2c37a49dca550841c741317f, type: 3}
---- !u!114 &114000010681290032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011662920290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ea9a6ed18654d14db02bf0076cfe488, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  MoveSpeed: 1.5
+  Damage: 5
 --- !u!114 &114000010706200716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,6 +333,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f58c1d9ce56e1749830b8aebe8ba3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000012362802080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011662920290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9d14572410594cb85d40eedfb150c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 0
+  sinkSpeed: 2.5
+  scoreValue: 10
+  deathClip: {fileID: 8300000, guid: 62366b8d2c37a49dca550841c741317f, type: 3}
 --- !u!136 &136000012494861170
 CapsuleCollider:
   m_ObjectHideFlags: 1

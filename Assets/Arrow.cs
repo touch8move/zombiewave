@@ -9,6 +9,7 @@ public class Arrow : MonoBehaviour {
 	float Timedir;
 	float gravity;
 	public bool isMoving;
+	public int damage;
 	float tmpDx;
 	float tmpDy;
 	// Use this for initialization

@@ -56,7 +56,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    void Death ()
+    public void Death ()
     {
         isDead = true;
 
@@ -71,7 +71,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void StartSinking ()
     {
-        GetComponent <NavMeshAgent> ().enabled = false;
+        //GetComponent <NavMeshAgent> ().enabled = false;
         GetComponent <Rigidbody> ().isKinematic = true;
         isSinking = true;
         //ScoreManager.score += scoreValue;

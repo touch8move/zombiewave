@@ -90,10 +90,10 @@ GameObject:
   - 4: {fileID: 4000011504269990}
   - 95: {fileID: 95000013529776076}
   - 54: {fileID: 54000010528090018}
-  - 114: {fileID: 114000012742462886}
   - 136: {fileID: 136000013783312456}
   - 82: {fileID: 82000010690861510}
   - 114: {fileID: 114000010379703224}
+  - 114: {fileID: 114000011755200428}
   m_Layer: 12
   m_Name: Player
   m_TagString: Target
@@ -134,10 +134,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013794655566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.38, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 6.38, y: 0, z: -2.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children:
   - {fileID: 4000013079282718}
   - {fileID: 4000012080371856}
@@ -431,11 +431,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b9d14572410594cb85d40eedfb150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
+  startingHealth: 200
   currentHealth: 0
   sinkSpeed: 2.5
-  scoreValue: 10
+  scoreValue: 50
   deathClip: {fileID: 8300000, guid: d36a393bca4582043982db9089e1694f, type: 3}
+--- !u!114 &114000011755200428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013794655566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f6618a0da65fa45b24d5105d5d8422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  Damage: 1
 --- !u!114 &114000011968060392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,19 +463,14 @@ MonoBehaviour:
   damagePerShot: 20
   timeBetweenBullets: 0.12
   range: 100
+  timer: 0
+  shootableMask: 0
+  gunParticles: {fileID: 0}
+  gunLine: {fileID: 0}
+  gunAudio: {fileID: 0}
+  gunLight: {fileID: 0}
   faceLight: {fileID: 108000014179811950}
---- !u!114 &114000012742462886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013794655566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b2268f9c7df8764aa2e92dbf55b5ae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 6
+  effectsDisplayTime: 0.2
 --- !u!120 &120000011626754332
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -2381,7 +2389,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
+  m_SelectedWireframeHidden: 1
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

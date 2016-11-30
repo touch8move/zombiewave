@@ -181,6 +181,7 @@ MonoBehaviour:
   Power: 0
   ArrowObject: {fileID: 1000011388617794}
   isMoving: 0
+  damage: 250
 --- !u!136 &136000011941184616
 CapsuleCollider:
   m_ObjectHideFlags: 1
