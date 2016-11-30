@@ -45,13 +45,13 @@ public class Arrow : MonoBehaviour {
 
 	}
 
-	public void RemoveParent()
+	public void RemoveParent(Collider other)
 	{
 
 		if (transform.parent)
 		{
 			GameObject parent = transform.parent.gameObject;
-			transform.SetParent(null);
+			//transform.SetParent(other.transform);
 			Destroy(parent);
 		}
 	}

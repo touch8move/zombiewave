@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Arrow
-  - Object
   - Target
+  - Head
+  - Body
+  - Object
   layers:
   - Default
   - TransparentFX
@@ -17,10 +18,10 @@ TagManager:
   - 
   - 
   - Floor
-  - 
-  - 
-  - 
-  - 
+  - Shootable
+  - LightMask
+  - Invisible
+  - ObjectLayer
   - 
   - 
   - 

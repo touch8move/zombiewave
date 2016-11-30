@@ -16,11 +16,13 @@ public class ArrowState : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("Tag:" + other.tag);
+		if (other.gameObject.layer == LayerMask.NameToLayer("ObjectLayer"))
+		{
+			arrowCtrl.RemoveParent(other);
+		}
 		if (other.CompareTag("Target"))
 		{
-			arrowCtrl.isMoving = false;
-			//gameObject.transform.SetParent(null);
-			arrowCtrl.RemoveParent();
+			other.gameObject.GetComponent<Animator>().Play("Death");
 		}
 	}
 }
