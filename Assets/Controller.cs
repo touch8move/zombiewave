@@ -1,10 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Controller : MonoBehaviour {
-	//public GameObject Bullet;
-	//public GameObject BulletStartPoint;
+
+
+	public int startingHealth = 100;
+	int currentHealth;
+	public Slider healthSlider;
+	public Image damageImage;
+	public AudioClip deathClip;
+	public float flashSpeed = 5f;
+	public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+	bool damaged;
+
+	public GameOverScript GameOver;
+
 	public GameObject ArrowStartPoint;
 	public GameObject ShotPoint;
 
@@ -31,18 +43,21 @@ public class Controller : MonoBehaviour {
 	float GenCurrentTime;
 	public GameObject BowObject;
 
+	//public Image TakeDamage;
+	//public Image damage;
+
 	int playerHp;
 	public int PlayerHP
 	{
 		get
 		{
-			return playerHp;
+			return currentHealth;
 		}
 		set
 		{
-			playerHp = value;
-			if (playerHp < 0)
-				playerHp = 0;
+			currentHealth = value;
+			if (currentHealth < 0)
+				currentHealth = 0;
 		}
 	}
 	public int Point;
@@ -56,13 +71,16 @@ public class Controller : MonoBehaviour {
 	{
 		power = 3f;
 		gravity = 9.8f / 60;
+		PlayerHP = startingHealth;
 	}
 	void Start()
 	{
 		GetGenTime();
 		//isGameOn = true;
 		GameStart();
-		playerHp = 100;
+		healthSlider.maxValue = PlayerHP;
+		healthSlider.value = PlayerHP;
+		//playerHp = 100;
 	}
 	public void GameStop()
 	{
@@ -91,16 +109,42 @@ public class Controller : MonoBehaviour {
 		HPLabel.text = "HP : "+PlayerHP.ToString("N0");
 		PointLabel.text = "Point : " + Point.ToString("N0");
 	}
-	void CheckHP()
+
+	public void TakeDamage(int amount)
 	{
-		if (PlayerHP <= 0)
+		damaged = true;
+
+		PlayerHP -= amount;
+
+		healthSlider.value = PlayerHP;
+
+		//playerAudio.Play();
+
+		if (PlayerHP <= 0 )
 		{
 			isGameOn = false;
+			int highScore = PlayerPrefs.GetInt("HighScore", 0);
+			if (highScore < Point)
+			{
+				PlayerPrefs.SetInt("HighScore", Point);
+			}
+			GameOver.Show();
 		}
 	}
 	void Update()
 	{
-		CheckHP();
+
+		if (damaged)
+		{
+			damageImage.color = flashColour;
+		}
+		else
+		{
+			damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+		}
+		damaged = false;
+
+		//CheckHP();
 		UpdateLabel();
 		if (isGameOn)
 		{
@@ -145,11 +189,6 @@ public class Controller : MonoBehaviour {
 		{
 			case TouchPhase.Began:
 				// TODO
-				//firstpoint = touchPosition;
-				//Debug.Log("FirstPoint: " + firstpoint);
-				//xAngTemp = xAngle;
-				//yAngTemp = yAngle;
-				//BeforeAimPoint = aimPoint.position;
 				bX = touchPosition.x;
 				bY = touchPosition.y;
 				break;
@@ -157,18 +196,13 @@ public class Controller : MonoBehaviour {
 				// TODO
 
 				aimPoint.position += new Vector3(touchPosition.x-bX, touchPosition.y-bY, 0);
-				//if (camera.fieldOfView > 60)
-				//{
-				//	camera.fieldOfView -= 0.5f;
-				//}
+
 				bX = touchPosition.x;
 				bY = touchPosition.y;
 				break;
 			case TouchPhase.Ended:
 				// TODO
-				//Debug.Log("Degree: " + (360-camera.transform.eulerAngles.x));
 				ShotArrow();
-				//camera.fieldOfView = 100;
 				break;
 		}
 	}
@@ -226,5 +260,10 @@ public class Controller : MonoBehaviour {
 		int enemyIndex = Random.Range(0, Enemys.Length);
 		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(-18, 0, Random.Range(-5.0f,5.0f)), Quaternion.Euler(0,90,0)) as GameObject;
 		Debug.Log("Gen Enemy " + enemyIndex);
+	}
+
+	public void Restart()
+	{
+		SceneManager.LoadScene(0);
 	}
 }

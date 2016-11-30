@@ -27,8 +27,7 @@ public class EnemyMovement : MonoBehaviour
 				transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
 				if (transform.position.x > 15)
 				{
-					//enemyHealth.currentHealth = 0;
-					FindObjectOfType<Controller>().PlayerHP -= Damage;
+					FindObjectOfType<Controller>().TakeDamage(Damage);
 					enemyHealth.LineDeath();
 				}
 

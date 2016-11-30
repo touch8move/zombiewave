@@ -67,6 +67,7 @@ public class EnemyHealth : MonoBehaviour
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
 		con.Point += scoreValue;
+		StartSinking();
     }
 
 	public void LineDeath()
