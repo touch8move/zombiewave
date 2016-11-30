@@ -30,7 +30,21 @@ public class Controller : MonoBehaviour {
 	float GenTime;
 	float GenCurrentTime;
 	public GameObject BowObject;
-	public int PlayerHP;
+
+	int playerHp;
+	public int PlayerHP
+	{
+		get
+		{
+			return playerHp;
+		}
+		set
+		{
+			playerHp = value;
+			if (playerHp < 0)
+				playerHp = 0;
+		}
+	}
 	public int Point;
 	public Camera camera;
 	bool isGameOn;
@@ -48,6 +62,7 @@ public class Controller : MonoBehaviour {
 		GetGenTime();
 		//isGameOn = true;
 		GameStart();
+		playerHp = 100;
 	}
 	public void GameStop()
 	{

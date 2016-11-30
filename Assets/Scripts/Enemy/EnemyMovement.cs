@@ -7,8 +7,10 @@ public class EnemyMovement : MonoBehaviour
 	public float MoveSpeed;
 	public int Damage;
 	Animator ani;
+	Controller con;
 	void Awake()
 	{
+		con = FindObjectOfType<Controller>();
 		enemyHealth = GetComponent<EnemyHealth>(); 
 		ani = GetComponent<Animator>();;
 	}
@@ -18,14 +20,18 @@ public class EnemyMovement : MonoBehaviour
 	}
 	void Update()
 	{
-		if (enemyHealth.currentHealth > 0)
+		if (con.PlayerHP > 0)
 		{
-			transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
-			if (transform.position.x > 18)
+			if (enemyHealth.currentHealth > 0)
 			{
-				enemyHealth.currentHealth = 0;
-				FindObjectOfType<Controller>().PlayerHP -= Damage;
-				enemyHealth.Death();
+				transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
+				if (transform.position.x > 18)
+				{
+					enemyHealth.currentHealth = 0;
+					FindObjectOfType<Controller>().PlayerHP -= Damage;
+					enemyHealth.Death();
+				}
+
 			}
 		}
 	}
