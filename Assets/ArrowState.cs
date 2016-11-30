@@ -23,7 +23,6 @@ public class ArrowState : MonoBehaviour {
 		if (other.CompareTag("Target"))
 		{
 			other.gameObject.GetComponent<EnemyHealth>().TakeDamage(arrowCtrl.damage, other.transform.position);
-			//other.gameObject.GetComponent<Animator>().Play("Death");
 		}
 	}
 }
