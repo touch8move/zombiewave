@@ -89,9 +89,9 @@ GameObject:
   - 54: {fileID: 54000010528090018}
   - 136: {fileID: 136000013783312456}
   - 82: {fileID: 82000010690861510}
-  - 114: {fileID: 114000010379703224}
-  - 114: {fileID: 114000011755200428}
   - 114: {fileID: 114000013317477428}
+  - 114: {fileID: 114000011755200428}
+  - 114: {fileID: 114000010379703224}
   m_Layer: 9
   m_Name: Player
   m_TagString: Target
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b9d14572410594cb85d40eedfb150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 200
+  startingHealth: 250
   currentHealth: 0
   sinkSpeed: 2.5
   scoreValue: 20
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 2
-  Damage: 1
+  Damage: 5
 --- !u!114 &114000013317477428
 MonoBehaviour:
   m_ObjectHideFlags: 1

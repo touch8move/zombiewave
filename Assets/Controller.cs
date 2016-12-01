@@ -215,21 +215,22 @@ public class Controller : MonoBehaviour {
 		Debug.Log(ray);
 
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit))
+		if (Physics.Raycast(ray, out hit, 50.0f, 1 << LayerMask.NameToLayer("Background")))
 		{
-			Debug.Log("Hit: "+hit.point);
+			//Debug.Log("Hit: "+hit.point);
 			float deg = Mathf.Atan2(hit.point.x - ShotPoint.transform.position.x, hit.point.z-ShotPoint.transform.position.z) * Mathf.Rad2Deg;
 			Xangle = deg;
-			Debug.Log("Deg: " + Xangle);
+			//Debug.Log("Deg: " + Xangle);
 			//float dx = hit.point.z - ShotPoint.transform.position.z;
 			float dx = Vector3.Distance(new Vector3(hit.point.x, 0, hit.point.z), new Vector3(ShotPoint.transform.position.x, 0,ShotPoint.transform.position.z));
 			float dy = hit.point.y - ShotPoint.transform.position.y;
-			//float degreeU = 
-			//	Mathf.Atan2(
-			//		(power * power)
-			//		 + Mathf.Sqrt(
-			//		Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
-			//		, (gravity * dx));
+
+			float degreeU = 
+				Mathf.Atan2(
+					(power * power)
+					 + Mathf.Sqrt(
+					Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
+					, (gravity * dx));
 			float degreeD =
 				Mathf.Atan2(
 					(power * power)

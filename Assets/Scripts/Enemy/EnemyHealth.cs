@@ -66,7 +66,7 @@ public class EnemyHealth : MonoBehaviour
 
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
-		con.Point += scoreValue;
+
 		StartSinking();
     }
 
@@ -87,7 +87,7 @@ public class EnemyHealth : MonoBehaviour
         //GetComponent <NavMeshAgent> ().enabled = false;
         GetComponent <Rigidbody> ().isKinematic = true;
         isSinking = true;
-        //ScoreManager.score += scoreValue;
+        con.Point += scoreValue;
         Destroy (gameObject, 2f);
     }
 }

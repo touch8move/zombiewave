@@ -85,10 +85,10 @@ GameObject:
   - 4: {fileID: 4000010197079834}
   - 95: {fileID: 95000013077361846}
   - 82: {fileID: 82000010125138434}
-  - 114: {fileID: 114000012453367324}
-  - 114: {fileID: 114000013491242104}
   - 136: {fileID: 136000013892088070}
   - 54: {fileID: 54000010642451736}
+  - 114: {fileID: 114000013491242104}
+  - 114: {fileID: 114000012453367324}
   m_Layer: 9
   m_Name: 'Hellephant '
   m_TagString: Target
@@ -348,10 +348,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b9d14572410594cb85d40eedfb150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 500
+  startingHealth: 2000
   currentHealth: 0
   sinkSpeed: 2.5
-  scoreValue: 100
+  scoreValue: 200
   deathClip: {fileID: 8300000, guid: 8c615fd0429f34edf85539d70279360d, type: 3}
 --- !u!114 &114000013491242104
 MonoBehaviour:

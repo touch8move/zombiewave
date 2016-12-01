@@ -15,13 +15,9 @@ public class ArrowState : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		//Debug.Log("Tag:" + other.tag);
 		Debug.Log("Hit Position: " + other.transform.position);
-		//if (other.gameObject.layer == LayerMask.NameToLayer("ObjectLayer"))
-		//{
-		//	arrowCtrl.RemoveParent(other);
-		//}
-		if (other.CompareTag("Target"))
+
+		if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 		{
 			other.gameObject.GetComponent<EnemyHealth>().TakeDamage(arrowCtrl.damage, other.transform.position);
 		}
