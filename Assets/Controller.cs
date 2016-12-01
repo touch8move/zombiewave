@@ -217,12 +217,13 @@ public class Controller : MonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
-			Debug.Log(hit.point);
+			Debug.Log("Hit: "+hit.point);
 			float deg = Mathf.Atan2(hit.point.x - ShotPoint.transform.position.x, hit.point.z-ShotPoint.transform.position.z) * Mathf.Rad2Deg;
 			Xangle = deg;
 			Debug.Log("Deg: " + Xangle);
-			float dx = hit.point.z - ArrowStartPoint.transform.position.z;
-			float dy = hit.point.y - ArrowStartPoint.transform.position.y;
+			//float dx = hit.point.z - ShotPoint.transform.position.z;
+			float dx = Vector3.Distance(new Vector3(hit.point.x, 0, hit.point.z), new Vector3(ShotPoint.transform.position.x, 0,ShotPoint.transform.position.z));
+			float dy = hit.point.y - ShotPoint.transform.position.y;
 			//float degreeU = 
 			//	Mathf.Atan2(
 			//		(power * power)
