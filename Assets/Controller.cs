@@ -17,7 +17,7 @@ public class Controller : MonoBehaviour {
 
 	public GameOverScript GameOver;
 
-	public GameObject ArrowStartPoint;
+	//public GameObject ArrowStartPoint;
 	public GameObject ShotPoint;
 
 	public GameObject[] Enemys;
@@ -95,7 +95,7 @@ public class Controller : MonoBehaviour {
 	{
 		Aim();
 		ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
-		GameObject arrow = Instantiate(Arrow, ArrowStartPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
+		GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
 		GameObject _startPoint = Instantiate(ShotPoint);
 		arrow.transform.SetParent(_startPoint.transform);
 		arrow.GetComponent<Arrow>().Shot(power, angle);
@@ -211,11 +211,11 @@ public class Controller : MonoBehaviour {
 	{
 		Ray ray = camera.ScreenPointToRay(aimPoint.position);
 		//Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-		Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
-		Debug.Log(ray);
+		//Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
+		//Debug.Log(ray);
 
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 50.0f, 1 << LayerMask.NameToLayer("Background")))
+		if (Physics.Raycast(ray, out hit, 200.0f, 1 << LayerMask.NameToLayer("Background")))
 		{
 			//Debug.Log("Hit: "+hit.point);
 			float deg = Mathf.Atan2(hit.point.x - ShotPoint.transform.position.x, hit.point.z-ShotPoint.transform.position.z) * Mathf.Rad2Deg;
@@ -260,7 +260,7 @@ public class Controller : MonoBehaviour {
 	void GenerateEnemy()
 	{
 		int enemyIndex = Random.Range(0, Enemys.Length);
-		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(-18, 0, Random.Range(-5.0f,5.0f)), Quaternion.Euler(0,90,0)) as GameObject;
+		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(Random.Range(-10,10), 0, 20), Quaternion.Euler(0,180,0)) as GameObject;
 		Debug.Log("Gen Enemy " + enemyIndex);
 	}
 

@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
 			if (enemyHealth.currentHealth > 0)
 			{
 				transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
-				if (transform.position.x > 15)
+				if (transform.position.z < -10)
 				{
 					FindObjectOfType<Controller>().TakeDamage(Damage);
 					enemyHealth.LineDeath();

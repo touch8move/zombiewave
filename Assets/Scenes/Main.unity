@@ -644,34 +644,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
---- !u!1 &866409313
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 866409314}
-  m_Layer: 0
-  m_Name: ArrowStartPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &866409314
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 866409313}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.1, z: -14}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
 --- !u!1 &883435632
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1089266854
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1022,7 +994,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &1109558989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1110,6 @@ MonoBehaviour:
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.1}
   GameOver: {fileID: 707889433}
-  ArrowStartPoint: {fileID: 866409313}
   ShotPoint: {fileID: 1904740094}
   Enemys:
   - {fileID: 1000013525226376, guid: 52f1bfc382dd04d728145642a2c8143c, type: 2}
@@ -1204,15 +1175,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.8
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 2.63
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.8
+      value: -9.81
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1232,7 +1203,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1245,6 +1216,18 @@ Prefab:
     - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 99.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66756304be5ae4545bcbdef9ff1489b2, type: 3}
@@ -1356,7 +1339,7 @@ Transform:
   - {fileID: 1380970970}
   - {fileID: 1109558993}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!1 &1236132690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +1913,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!1 &1921886174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,7 +1943,7 @@ Transform:
   m_Children:
   - {fileID: 1145170104}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!114 &1921886176
 MonoBehaviour:
   m_ObjectHideFlags: 0
