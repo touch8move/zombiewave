@@ -24,7 +24,7 @@ public class Controller : MonoBehaviour {
 
 	float bX;
 	float bY;
-	public float rotationspeed;
+	//public float rotationspeed;
 
 	public GameObject Arrow;
 
@@ -33,15 +33,21 @@ public class Controller : MonoBehaviour {
 	public float power;
 	float Timedir;
 
-	float OnOffTimer;
+	//float OnOffTimer;
 	bool isUITouch;
 
 	float gravity;
 	float angle;
 	float Xangle;
+
 	float GenTime;
 	float GenCurrentTime;
-	public GameObject BowObject;
+
+	//public Transform airPosition;
+	//float GenAirEnemyTime;
+	//float GenAirEnemyCurrentTime;
+
+	//public GameObject BowObject;
 
 	//public Image TakeDamage;
 	//public Image damage;
@@ -61,7 +67,7 @@ public class Controller : MonoBehaviour {
 		}
 	}
 	public int Point;
-	public Camera camera;
+	new public Camera camera;
 	bool isGameOn;
 
 	public Text HPLabel;
@@ -72,6 +78,8 @@ public class Controller : MonoBehaviour {
 		power = 3f;
 		gravity = 9.8f / 60;
 		PlayerHP = startingHealth;
+
+		//GenAirEnemyTime = 5;
 	}
 	void Start()
 	{
@@ -155,6 +163,15 @@ public class Controller : MonoBehaviour {
 				GenCurrentTime = 0;
 				GenerateEnemy();
 			}
+			//GenAirEnemyCurrentTime += Time.deltaTime;
+			//if (GenAirEnemyTime < GenAirEnemyCurrentTime)
+			//{
+			//	GenAirEnemyCurrentTime = 0;
+			//	int enemyIndex = Random.Range(0, Enemys.Length);
+			//	GameObject enemy = Instantiate(Enemys[enemyIndex], airPosition.position, Quaternion.Euler(0, 180, 0)) as GameObject;
+			//	Debug.Log("Gen Enemy " + enemyIndex);
+			//}
+
 			if (isUITouch == false)
 			{
 				foreach (Touch touch in Input.touches)
@@ -225,12 +242,13 @@ public class Controller : MonoBehaviour {
 			float dx = Vector3.Distance(new Vector3(hit.point.x, 0, hit.point.z), new Vector3(ShotPoint.transform.position.x, 0,ShotPoint.transform.position.z));
 			float dy = hit.point.y - ShotPoint.transform.position.y;
 
-			float degreeU = 
-				Mathf.Atan2(
-					(power * power)
-					 + Mathf.Sqrt(
-					Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
-					, (gravity * dx));
+			// Degree > 45
+			//float degreeU = 
+			//	Mathf.Atan2(
+			//		(power * power)
+			//		 + Mathf.Sqrt(
+			//		Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
+			//		, (gravity * dx));
 			float degreeD =
 				Mathf.Atan2(
 					(power * power)
