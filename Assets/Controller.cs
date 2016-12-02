@@ -121,12 +121,8 @@ public class Controller : MonoBehaviour {
 	public void TakeDamage(int amount)
 	{
 		damaged = true;
-
 		PlayerHP -= amount;
-
 		healthSlider.value = PlayerHP;
-
-		//playerAudio.Play();
 
 		if (PlayerHP <= 0 )
 		{
@@ -279,7 +275,7 @@ public class Controller : MonoBehaviour {
 	{
 		int enemyIndex = Random.Range(0, Enemys.Length);
 		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(Random.Range(-10,10), 0, 20), Quaternion.Euler(0,180,0)) as GameObject;
-		Debug.Log("Gen Enemy " + enemyIndex);
+//		Debug.Log("Gen Enemy " + enemyIndex);
 	}
 
 	public void Restart()

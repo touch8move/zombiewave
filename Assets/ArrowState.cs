@@ -20,6 +20,13 @@ public class ArrowState : MonoBehaviour {
 		if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 		{
 			other.gameObject.GetComponent<EnemyHealth>().TakeDamage(arrowCtrl.damage, other.transform.position);
+			arrowCtrl.RemoveParent (other);
+			Destroy (gameObject);
+		}
+
+		if (other.gameObject.layer == LayerMask.NameToLayer ("Background")) {
+			arrowCtrl.RemoveParent (other);
+			Destroy (gameObject);
 		}
 	}
 }
