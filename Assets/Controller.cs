@@ -53,14 +53,6 @@ public class Controller : MonoBehaviour {
 			return isGameOn;
 		}
 	}
-	//public Transform airPosition;
-	//float GenAirEnemyTime;
-	//float GenAirEnemyCurrentTime;
-
-	//public GameObject BowObject;
-
-	//public Image TakeDamage;
-	//public Image damage;
 
 	int playerHp;
 	public int PlayerHP
@@ -83,6 +75,14 @@ public class Controller : MonoBehaviour {
 	public Text HPLabel;
 	public Text PointLabel;
 
+	// reload
+	bool isReload;
+	public float reloadTime;
+	public Slider ReloadSlider;
+	public Text BulletText;
+	public int BulletCount;
+	int currentBulletCount;
+
 	void Awake()
 	{
 		power = 3f;
@@ -98,6 +98,10 @@ public class Controller : MonoBehaviour {
 		GameStart();
 		healthSlider.maxValue = PlayerHP;
 		healthSlider.value = PlayerHP;
+
+		ReloadSlider.minValue = 0;
+		ReloadSlider.maxValue = reloadTime;
+		currentBulletCount = BulletCount;
 		//playerHp = 100;
 	}
 	public void GameStop()
@@ -111,12 +115,25 @@ public class Controller : MonoBehaviour {
 	}
 	public void ShotArrow()
 	{
-		Aim();
-		ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
-		GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
-		GameObject _startPoint = Instantiate(ShotPoint);
-		arrow.transform.SetParent(_startPoint.transform);
-		arrow.GetComponent<Arrow>().Shot(power, angle);
+		if (!isReload)
+		{
+			Aim();
+			ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
+			GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
+			GameObject _startPoint = Instantiate(ShotPoint);
+			arrow.transform.SetParent(_startPoint.transform);
+			arrow.GetComponent<Arrow>().Shot(power, angle);
+
+			useBullet();
+		}
+	}
+
+	void useBullet()
+	{
+		currentBulletCount--;
+		BulletText.text = currentBulletCount.ToString();
+		if (currentBulletCount == 0)
+			reload();
 	}
 	void GetGenTime()
 	{
@@ -291,5 +308,30 @@ public class Controller : MonoBehaviour {
 	public void Restart()
 	{
 		SceneManager.LoadScene(0);
+	}
+
+	public void reload()
+	{
+		if (!isReload)
+		{
+			StartCoroutine(IEReload());
+		}
+	}
+
+	IEnumerator IEReload()
+	{
+		isReload = true;
+		float TimeTic = 0.02f;
+		ReloadSlider.enabled = true;
+		while (ReloadSlider.value < ReloadSlider.maxValue)
+		{
+			ReloadSlider.value += TimeTic;
+			yield return new WaitForSeconds(TimeTic);
+		}
+		//ReloadSlider.enabled = false;
+		isReload = false;
+		currentBulletCount = BulletCount;
+		BulletText.text = currentBulletCount.ToString();
+		ReloadSlider.value = 0;
 	}
 }
