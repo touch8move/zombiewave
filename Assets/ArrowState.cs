@@ -25,6 +25,7 @@ public class ArrowState : MonoBehaviour {
 		}
 
 		if (other.gameObject.layer == LayerMask.NameToLayer ("Background")) {
+			Debug.Log("Background Hit");
 			arrowCtrl.RemoveParent (other);
 			Destroy (gameObject);
 		}

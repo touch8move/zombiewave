@@ -85,7 +85,7 @@ public class Controller : MonoBehaviour {
 
 	void Awake()
 	{
-		power = 3f;
+		//power = 3f;
 		gravity = 9.8f / 60;
 		PlayerHP = startingHealth;
 
@@ -150,7 +150,7 @@ public class Controller : MonoBehaviour {
 		damaged = true;
 		PlayerHP -= amount;
 		healthSlider.value = PlayerHP;
-
+		Clash();
 		if (PlayerHP <= 0 )
 		{
 			isGameOn = false;
@@ -162,6 +162,13 @@ public class Controller : MonoBehaviour {
 			GameOver.Show();
 		}
 	}
+
+	void Clash()
+	{
+		FlashEffect.Play();
+		camera.GetComponent<Animator>().SetTrigger("shake");
+	}
+
 	void Update()
 	{
 
@@ -249,10 +256,11 @@ public class Controller : MonoBehaviour {
 
 	void Aim()
 	{
+		
 		Ray ray = camera.ScreenPointToRay(aimPoint.position);
 		//Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		//Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
-		//Debug.Log(ray);
+		Debug.Log(aimPoint.position);
 
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit, 500.0f, 1 << LayerMask.NameToLayer("Background")))
@@ -266,12 +274,12 @@ public class Controller : MonoBehaviour {
 			float dy = hit.point.y - ShotPoint.transform.position.y;
 
 			// Degree > 45
-			//float degreeU = 
-			//	Mathf.Atan2(
-			//		(power * power)
-			//		 + Mathf.Sqrt(
-			//		Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
-			//		, (gravity * dx));
+			float degreeU = 
+				Mathf.Atan2(
+					(power * power)
+					 + Mathf.Sqrt(
+					Mathf.Pow(power, 4) - gravity * (gravity * dx * dx + 2 * dy * power * power))
+					, (gravity * dx));
 			float degreeD =
 				Mathf.Atan2(
 					(power * power)
@@ -282,6 +290,8 @@ public class Controller : MonoBehaviour {
 			{
 				angle = 45;
 			}
+
+			//Debug.Log("Angle:" + angle + " degreeU:" + degreeU);
 		}
 		else {
 			Debug.Log("Sky");

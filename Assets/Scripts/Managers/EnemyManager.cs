@@ -10,12 +10,12 @@ public class EnemyManager : MonoBehaviour
 
 	void Awake()
 	{
-		controller = FindObjectOfType<Controller>();
+		//controller = FindObjectOfType<Controller>();
 	}
 
     void Start ()
     {
-		InvokeRepeating("Spawn", spawnTime, spawnTime);
+		InvokeRepeating("Spawn", 0, spawnTime);
     }
 
     void Spawn ()
@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
 			int spawnPointIndex = Random.Range(0, spawnPoints.Length);
 			int spawnEnemyIndex = Random.Range(0, enemy.Length);
 			Instantiate(enemy[spawnEnemyIndex], spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
-			Debug.Log("Generate Enemy");
+			//Debug.Log("Generate Enemy");
 		}
     }
 }
