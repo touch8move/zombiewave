@@ -13,6 +13,9 @@ public class Controller : MonoBehaviour {
 	public AudioClip deathClip;
 	public float flashSpeed = 5f;
 	public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+
+	public Transform TargetTransform;
+
 	bool damaged;
 
 	public GameOverScript GameOver;
@@ -22,6 +25,7 @@ public class Controller : MonoBehaviour {
 
 	public GameObject[] Enemys;
 
+	public Transform[] EnemyGenPoints;
 	float bX;
 	float bY;
 	//public float rotationspeed;
@@ -42,7 +46,13 @@ public class Controller : MonoBehaviour {
 
 	float GenTime;
 	float GenCurrentTime;
-
+	public bool IsGameOn
+	{
+		get
+		{
+			return isGameOn;
+		}
+	}
 	//public Transform airPosition;
 	//float GenAirEnemyTime;
 	//float GenAirEnemyCurrentTime;
@@ -152,13 +162,13 @@ public class Controller : MonoBehaviour {
 		UpdateLabel();
 		if (isGameOn)
 		{
-			GenCurrentTime += Time.deltaTime;
-			if (GenCurrentTime > GenTime)
-			{
-				GetGenTime();
-				GenCurrentTime = 0;
-				GenerateEnemy();
-			}
+//			GenCurrentTime += Time.deltaTime;
+//			if (GenCurrentTime > GenTime)
+//			{
+//				GetGenTime();
+//				GenCurrentTime = 0;
+//				GenerateEnemy();
+//			}
 			//GenAirEnemyCurrentTime += Time.deltaTime;
 			//if (GenAirEnemyTime < GenAirEnemyCurrentTime)
 			//{
@@ -228,7 +238,7 @@ public class Controller : MonoBehaviour {
 		//Debug.Log(ray);
 
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 200.0f, 1 << LayerMask.NameToLayer("Background")))
+		if (Physics.Raycast(ray, out hit, 500.0f, 1 << LayerMask.NameToLayer("Background")))
 		{
 			//Debug.Log("Hit: "+hit.point);
 			float deg = Mathf.Atan2(hit.point.x - ShotPoint.transform.position.x, hit.point.z-ShotPoint.transform.position.z) * Mathf.Rad2Deg;
