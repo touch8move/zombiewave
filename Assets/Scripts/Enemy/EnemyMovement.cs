@@ -41,7 +41,7 @@ public class EnemyMovement : MonoBehaviour
 			enemyHealth.LineDeath();
 		}
 
-		if (con.PlayerHP <= 0)
+		if (!con.IsGameOn)
 		{
 			if (nav.isActiveAndEnabled)
 				nav.enabled = false;

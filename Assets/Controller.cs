@@ -16,6 +16,16 @@ public class Controller : MonoBehaviour {
 
 	public Transform TargetTransform;
 
+
+	private Vector3 firstpoint; //change type on Vector3
+	private Vector3 secondpoint;
+	private float xAngle = 0.0f; //angle for axes x for rotation
+	private float yAngle = 0.0f;
+	private float xAngTemp = 0.0f; //temp variable for angle
+	private float yAngTemp = 0.0f;
+	public float rotationspeed;
+
+
 	bool damaged;
 
 	public GameOverScript GameOver;
@@ -69,7 +79,7 @@ public class Controller : MonoBehaviour {
 		}
 	}
 	public int Point;
-	new public Camera camera;
+	//new public Camera camera;
 	bool isGameOn;
 
 	public Text HPLabel;
@@ -88,13 +98,14 @@ public class Controller : MonoBehaviour {
 		//power = 3f;
 		gravity = 9.8f / 60;
 		PlayerHP = startingHealth;
-
+		//camera = FindObjectOfType<Camera>();
 		//GenAirEnemyTime = 5;
 	}
 	void Start()
 	{
 		GetGenTime();
-		//isGameOn = true;
+		//GameStop();
+		//UITouchOff();
 		GameStart();
 		healthSlider.maxValue = PlayerHP;
 		healthSlider.value = PlayerHP;
@@ -112,20 +123,6 @@ public class Controller : MonoBehaviour {
 	public void GameStart()
 	{
 		isGameOn = true;
-	}
-	public void ShotArrow()
-	{
-		if (!isReload)
-		{
-			Aim();
-			ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
-			GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(angle, Xangle, 0)) as GameObject;
-			GameObject _startPoint = Instantiate(ShotPoint);
-			arrow.transform.SetParent(_startPoint.transform);
-			arrow.GetComponent<Arrow>().Shot(power, angle);
-
-			useBullet();
-		}
 	}
 
 	void useBullet()
@@ -153,7 +150,7 @@ public class Controller : MonoBehaviour {
 		Clash();
 		if (PlayerHP <= 0 )
 		{
-			isGameOn = false;
+			GameStop();
 			int highScore = PlayerPrefs.GetInt("HighScore", 0);
 			if (highScore < Point)
 			{
@@ -237,16 +234,28 @@ public class Controller : MonoBehaviour {
 		{
 			case TouchPhase.Began:
 				// TODO
-				bX = touchPosition.x;
-				bY = touchPosition.y;
+				firstpoint = touchPosition;
+				//Debug.Log("FirstPoint: " + firstpoint);
+				xAngTemp = xAngle;
+				yAngTemp = yAngle;
 				break;
 			case TouchPhase.Moved:
 				// TODO
+				secondpoint = touchPosition;
+				xAngle = xAngTemp + (secondpoint.x - firstpoint.x) / Screen.width * rotationspeed;
+				yAngle = yAngTemp - (secondpoint.y - firstpoint.y) / Screen.height * rotationspeed;
+				//Debug.Log("SecondPoint: " + secondpoint);
+				//Debug.Log("xAngle:" + xAngle + " yAngle:" + yAngle);
+				//if (Mathf.Abs(Mathf.DeltaAngle(xAngle, 0)) <= 30)
+				//{
+					Camera.main.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
+					//BulletStartPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
+					//ArrowStartPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
+					//ShotPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
+					//BowObject.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
+				//}
 
-				aimPoint.position += new Vector3(touchPosition.x-bX, touchPosition.y-bY, 0);
 
-				bX = touchPosition.x;
-				bY = touchPosition.y;
 				break;
 			case TouchPhase.Ended:
 				// TODO
@@ -255,15 +264,31 @@ public class Controller : MonoBehaviour {
 		}
 	}
 
+	public void ShotArrow()
+	{
+		if (!isReload)
+		{
+			Aim();
+			//ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
+			GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(yAngle, xAngle, 0.0f)) as GameObject;
+			GameObject _startPoint = Instantiate(ShotPoint, ShotPoint.transform.position, Quaternion.Euler(yAngle, xAngle, 0.0f));
+			arrow.transform.SetParent(_startPoint.transform);
+			arrow.GetComponent<Arrow>().Shot(power, 5);
+
+			useBullet();
+		}
+	}
+
 	void Aim()
 	{
 		
-		Ray ray = camera.ScreenPointToRay(aimPoint.position);
+		Ray ray = Camera.main.ScreenPointToRay(aimPoint.position);
 		//Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		//Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
-		Debug.Log(aimPoint.position);
-
+		//Debug.Log(aimPoint.position);
+		/*
 		RaycastHit hit;
+
 		if (Physics.Raycast(ray, out hit, 500.0f, 1 << LayerMask.NameToLayer("Background")))
 		{
 			//Debug.Log("Hit: "+hit.point);
@@ -296,7 +321,7 @@ public class Controller : MonoBehaviour {
 		}
 		else {
 			Debug.Log("Sky");
-		}
+		}*/
 	}
 
 	public void UITouchOn()

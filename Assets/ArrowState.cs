@@ -15,7 +15,7 @@ public class ArrowState : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		//Debug.Log("Hit Position: " + other.transform.position);
+		Debug.Log("Hit Position: " + other.transform.position);
 
 		if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 		{
