@@ -20,7 +20,7 @@ class FlashEffect : MonoBehaviour
 		{
 			for (int x = 0; x < texture.width; ++x) 
 			{
-				texture.SetPixel(x, y, Color.white);
+				texture.SetPixel(x, y, Color.red);
 			}
 		}
 

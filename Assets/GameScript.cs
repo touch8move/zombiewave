@@ -79,6 +79,7 @@ public class GameScript : MonoBehaviour {
 			LoadBar.value = operation.progress;
 			Debug.Log("loading progress: " + operation.progress);
 		}
+		LoadBar.value = 1;
 		yield return new WaitForSeconds(0.5f);
 		Debug.Log("load done");
 	}

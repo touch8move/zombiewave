@@ -165,8 +165,9 @@ public class Controller : MonoBehaviour {
 
 	void Clash()
 	{
-		FlashEffect.Play();
-		camera.GetComponent<Animator>().SetTrigger("shake");
+		//FlashEffect.Play();
+		//camera.GetComponent<Animator>().SetTrigger("shake");
+		//camera.GetComponent<Animation>().Play();
 	}
 
 	void Update()
