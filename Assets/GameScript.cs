@@ -8,11 +8,18 @@ public class GameScript : MonoBehaviour {
 
 	public Text point;
 	public Button StartButton;
+	public Slider LoadBar;
 	// Use this for initialization
+	void Awake()
+	{
+		LoadBar.gameObject.SetActive(false);
+	}
 	void Start()
 	{
 		int score = PlayerPrefs.GetInt("HighScore");
 		point.text = score.ToString("N0");
+		//LoadBar.enabled = false;
+
 	}
 
 	void Update()
@@ -55,8 +62,24 @@ public class GameScript : MonoBehaviour {
 				break;
 			case TouchPhase.Ended:
 				// TODO
-				SceneManager.LoadScene(1);
+				//SceneManager.LoadScene(1);
+				StartCoroutine(loadAsync());
+				//Asy
 				break;
 		}
+	}
+
+	private IEnumerator loadAsync()
+	{
+		LoadBar.gameObject.SetActive(true);
+		AsyncOperation operation = SceneManager.LoadSceneAsync(1);
+		while (!operation.isDone)
+		{
+			yield return operation.isDone;
+			LoadBar.value = operation.progress;
+			Debug.Log("loading progress: " + operation.progress);
+		}
+		yield return new WaitForSeconds(0.5f);
+		Debug.Log("load done");
 	}
 }
