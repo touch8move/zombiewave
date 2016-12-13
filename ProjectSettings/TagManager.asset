@@ -9,6 +9,7 @@ TagManager:
   - Body
   - Object
   - Arrow
+  - CriticalTarget
   layers:
   - Default
   - TransparentFX

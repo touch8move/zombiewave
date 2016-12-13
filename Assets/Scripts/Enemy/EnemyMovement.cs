@@ -10,6 +10,7 @@ public class EnemyMovement : MonoBehaviour
 	Animator ani;
 	Controller con;
 	UnityEngine.AI.NavMeshAgent nav;
+	public bool isMelee;
 	void Awake()
 	{
 		con = FindObjectOfType<Controller>();
@@ -21,9 +22,12 @@ public class EnemyMovement : MonoBehaviour
 
 	void Start()
 	{
-		ani.SetTrigger("Move");
-		//Debug.Log("MyPos:" + transform.position + "Dest:" + target.position);
-		nav.SetDestination (target.position);
+		if (isMelee)
+		{
+			ani.SetTrigger("Move");
+			//Debug.Log("MyPos:" + transform.position + "Dest:" + target.position);
+			nav.SetDestination(target.position);
+		}
 		//if (nav.pathStatus != UnityEngine.AI.NavMeshPathStatus.PathComplete)
 		//{
 		//	Debug.Log("Nav Error");
@@ -36,17 +40,22 @@ public class EnemyMovement : MonoBehaviour
 
 	void Update()
 	{
-		if (CheckReached ()) {
-			FindObjectOfType<Controller>().TakeDamage(Damage);
-			enemyHealth.LineDeath();
+		if (isMelee)
+		{
+			if (CheckReached())
+			{
+				FindObjectOfType<Controller>().TakeDamage(Damage);
+				enemyHealth.LineDeath();
+			}
+			if (!con.IsGameOn)
+			{
+
+				if (nav.isActiveAndEnabled)
+					nav.enabled = false;
+			}
 		}
 
-		if (!con.IsGameOn)
-		{
-			if (nav.isActiveAndEnabled)
-				nav.enabled = false;
-			//nav.Stop();
-		}
+
 //		if (con.PlayerHP > 0)
 //		{
 //			if (enemyHealth.isAlive())

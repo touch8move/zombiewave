@@ -12,17 +12,22 @@ public class EnemyHealth : MonoBehaviour
     Animator anim;
     AudioSource enemyAudio;
     ParticleSystem hitParticles;
-    CapsuleCollider capsuleCollider;
+	//CapsuleCollider capsuleCollider;
+	SphereCollider[] colliders;
     bool isDead;
     bool isSinking;
 	Controller con;
+
+	//public GameObject Body;
+	//public GameObject Head;
 
     void Awake ()
     {
         anim = GetComponent <Animator> ();
         enemyAudio = GetComponent <AudioSource> ();
         hitParticles = GetComponentInChildren <ParticleSystem> ();
-        capsuleCollider = GetComponent <CapsuleCollider> ();
+		//capsuleCollider = GetComponent <CapsuleCollider> ();
+		colliders = GetComponentsInChildren<SphereCollider>();
 		con = FindObjectOfType<Controller>();
         currentHealth = startingHealth;
     }
@@ -60,11 +65,14 @@ public class EnemyHealth : MonoBehaviour
     {
         isDead = true;
 
-        capsuleCollider.isTrigger = true;
+		//capsuleCollider.isTrigger = true;
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].isTrigger = true;
+		}
+		anim.SetTrigger("Dead");
 
-        anim.SetTrigger ("Dead");
-
-        enemyAudio.clip = deathClip;
+		enemyAudio.clip = deathClip;
         enemyAudio.Play ();
 		con.Point += scoreValue;
 		StartSinking();
@@ -74,7 +82,11 @@ public class EnemyHealth : MonoBehaviour
 	{
 		isDead = true;
 
-		capsuleCollider.isTrigger = true;
+		//capsuleCollider.isTrigger = true;
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].isTrigger = true;
+		}
 		currentHealth = 0;
 		anim.SetTrigger("Dead");
 

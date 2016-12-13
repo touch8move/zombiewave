@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 1
   Damage: 20
+  isMelee: 1
 --- !u!136 &136000013892088070
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -10,11 +10,13 @@ public class Controller : MonoBehaviour {
 	int currentHealth;
 	public Slider healthSlider;
 	public Image damageImage;
-	public AudioClip deathClip;
+	//public AudioClip deathClip;
 	public float flashSpeed = 5f;
 	public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
 
 	public Transform TargetTransform;
+
+	//public QueryChanSapporoMecanimController player;
 
 
 	private Vector3 firstpoint; //change type on Vector3
@@ -33,9 +35,9 @@ public class Controller : MonoBehaviour {
 	//public GameObject ArrowStartPoint;
 	public GameObject ShotPoint;
 
-	public GameObject[] Enemys;
+	//public GameObject[] Enemys;
 
-	public Transform[] EnemyGenPoints;
+	//public Transform[] EnemyGenPoints;
 	float bX;
 	float bY;
 	//public float rotationspeed;
@@ -50,12 +52,12 @@ public class Controller : MonoBehaviour {
 	//float OnOffTimer;
 	bool isUITouch;
 
-	float gravity;
+	//float gravity;
 	float angle;
 	float Xangle;
 
-	float GenTime;
-	float GenCurrentTime;
+	//float GenTime;
+	//float GenCurrentTime;
 	public bool IsGameOn
 	{
 		get
@@ -93,17 +95,20 @@ public class Controller : MonoBehaviour {
 	public int BulletCount;
 	int currentBulletCount;
 
+	public float ShootDelay;
+	float ShootDelayTimer;
+
 	void Awake()
 	{
 		//power = 3f;
-		gravity = 9.8f / 60;
+		//gravity = 9.8f / 60;
 		PlayerHP = startingHealth;
 		//camera = FindObjectOfType<Camera>();
 		//GenAirEnemyTime = 5;
 	}
 	void Start()
 	{
-		GetGenTime();
+		//GetGenTime();
 		//GameStop();
 		//UITouchOff();
 		GameStart();
@@ -132,10 +137,10 @@ public class Controller : MonoBehaviour {
 		if (currentBulletCount == 0)
 			reload();
 	}
-	void GetGenTime()
-	{
-		GenTime = Random.Range(1.0f, 2.0f);
-	}
+	//void GetGenTime()
+	//{
+	//	GenTime = Random.Range(1.0f, 2.0f);
+	//}
 	void UpdateLabel()
 	{
 		HPLabel.text = "HP : "+PlayerHP.ToString("N0");
@@ -184,6 +189,7 @@ public class Controller : MonoBehaviour {
 		UpdateLabel();
 		if (isGameOn)
 		{
+			ShootDelayTimer += Time.deltaTime;
 //			GenCurrentTime += Time.deltaTime;
 //			if (GenCurrentTime > GenTime)
 //			{
@@ -246,20 +252,33 @@ public class Controller : MonoBehaviour {
 				yAngle = yAngTemp - (secondpoint.y - firstpoint.y) / Screen.height * rotationspeed;
 				//Debug.Log("SecondPoint: " + secondpoint);
 				//Debug.Log("xAngle:" + xAngle + " yAngle:" + yAngle);
-				//if (Mathf.Abs(Mathf.DeltaAngle(xAngle, 0)) <= 30)
-				//{
-					Camera.main.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
-					//BulletStartPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
-					//ArrowStartPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
-					//ShotPoint.transform.rotation = Quaternion.Euler(0, xAngle, 0.0f);
-					//BowObject.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
-				//}
+				float deltaAngle = Mathf.DeltaAngle(xAngle, 0);
+				if (Mathf.DeltaAngle(yAngle, 0) < -5)
+				{
+					yAngle = 5;
+				}
+				//Debug.Log("DeltaAngle: " + deltaAngle);
+				if (deltaAngle > 30)
+				{
+					xAngle = -30;
+				}
 
+				if (deltaAngle < -30)
+				{
+					xAngle = 30;
+				}
+
+				Camera.main.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
 
 				break;
 			case TouchPhase.Ended:
 				// TODO
-				ShotArrow();
+				if (ShootDelayTimer > ShootDelay)
+				{
+					//player.ChangeAnimation(QueryChanSapporoMecanimController.QueryChanSapporoAnimationType.SAPPORO_IDLE);
+					//player.GetComponent<Animator>().SetTrigger("Throw");
+					ShotArrow();
+				}
 				break;
 		}
 	}
@@ -268,7 +287,9 @@ public class Controller : MonoBehaviour {
 	{
 		if (!isReload)
 		{
-			Aim();
+			//player.ChangeAnimation(QueryChanSapporoMecanimController.QueryChanSapporoAnimationType.SAPPORO_SNOWBALLING);
+			//player.GetComponent<Animator>().SetTrigger("Throw");
+			//Aim();
 			//ShotPoint.transform.rotation = Quaternion.Euler(0, Xangle, 0);
 			GameObject arrow = Instantiate(Arrow, ShotPoint.transform.position, Quaternion.Euler(yAngle, xAngle, 0.0f)) as GameObject;
 			GameObject _startPoint = Instantiate(ShotPoint, ShotPoint.transform.position, Quaternion.Euler(yAngle, xAngle, 0.0f));
@@ -276,13 +297,14 @@ public class Controller : MonoBehaviour {
 			arrow.GetComponent<Arrow>().Shot(power, 5);
 
 			useBullet();
+			ShootDelayTimer = 0;
 		}
 	}
 
 	void Aim()
 	{
 		
-		Ray ray = Camera.main.ScreenPointToRay(aimPoint.position);
+		//Ray ray = Camera.main.ScreenPointToRay(aimPoint.position);
 		//Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		//Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 5f);
 		//Debug.Log(aimPoint.position);
@@ -334,12 +356,12 @@ public class Controller : MonoBehaviour {
 		isUITouch = false;
 	}
 
-	void GenerateEnemy()
-	{
-		int enemyIndex = Random.Range(0, Enemys.Length);
-		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(Random.Range(-10,10), 0, 20), Quaternion.Euler(0,180,0)) as GameObject;
-//		Debug.Log("Gen Enemy " + enemyIndex);
-	}
+//	void GenerateEnemy()
+//	{
+//		int enemyIndex = Random.Range(0, Enemys.Length);
+//		GameObject enemy = Instantiate(Enemys[enemyIndex], new Vector3(Random.Range(-10,10), 0, 20), Quaternion.Euler(0,180,0)) as GameObject;
+////		Debug.Log("Gen Enemy " + enemyIndex);
+//	}
 
 	public void Restart()
 	{

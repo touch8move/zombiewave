@@ -328,6 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 1.5
   Damage: 10
+  isMelee: 1
 --- !u!114 &114000012362802080
 MonoBehaviour:
   m_ObjectHideFlags: 1
