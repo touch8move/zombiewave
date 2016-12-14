@@ -20,7 +20,7 @@ public class ArrowState : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		//Debug.Log("Hit Position: " + other.transform.position);
+		Debug.Log("Hit Position: " + other.transform.position);
 
 		if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 		{
@@ -28,9 +28,10 @@ public class ArrowState : MonoBehaviour {
 			int Damage = arrowCtrl.damage;
 			if (other.tag == "Head")
 			{
+				Debug.Log("Head");
 				Damage =Mathf.CeilToInt(Damage * 2.5f);
 			}
-			other.gameObject.GetComponentInParent<EnemyHealth>().TakeDamage(Damage, other.transform.position);
+			other.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(Damage, other.transform.position);
 		}
 
 		//if (other.gameObject.layer == LayerMask.NameToLayer ("Background")) {

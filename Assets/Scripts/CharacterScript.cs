@@ -29,32 +29,42 @@ public class CharacterScript : MonoBehaviour {
 	public WeaponScript weapon;
 	public Transform rightHand;
 	public Transform leftHand;
+
+	float vertical;
+
 	//public Transform head;
 	//public Transform body;
 	// Use this for initialization
 	void Start () {
 		//WeaponType_int = 3;
-		animator.SetInteger("WeaponType_int", 5);
-		animator.SetFloat("Body_Horizontal_f", 0.8f);
-		animator.SetFloat("Head_Horizontal_f", -0.5f);
+		animator.SetInteger("WeaponType_int", 6);
+		animator.SetFloat("Body_Horizontal_f", 0.6f);
+		animator.SetFloat("Head_Horizontal_f", -0.2f);
 		//weapon = new WeaponScript();
 		weapon.ChangeWeapon(12, rightHand);
+		//vertical_down = -30.0f;
+		vertical = 50.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (weapon.WeaponReady())
-		{
-			animator.SetBool("Shoot_b", false);
-		}
+		//if (weapon.WeaponReady())
+		//{
+		//	animator.SetBool("Shoot_b", false);
+		//}
 	}
 
 
 
 	public void Shot(float xAngle, float yAngle)
 	{
-		animator.SetBool("Shoot_b", true);
-		weapon.FireWeapon(xAngle, yAngle);
+		if (weapon.WeaponReady())
+		{
+			//animator.SetBool("Shoot_b", true);
+			Debug.Log("xAngle: " + xAngle + " yAngle: " + yAngle);
+			animator.SetTrigger("Shoot_t");
+			weapon.FireWeapon(xAngle, yAngle);
+		}
 	}
 
 	public void Reload()
@@ -63,15 +73,15 @@ public class CharacterScript : MonoBehaviour {
 
 	public void UpdateCharacterDirection(float YDegree)
 	{
-		if (YDegree >= -20 && YDegree < 0)
+		if (YDegree >= vertical && YDegree < 0)
 		{
 			//Debug.Log("-20");
-			animator.SetFloat("Body_Vertical_f", YDegree / 20.0f);
+			animator.SetFloat("Body_Vertical_f", YDegree / -(vertical*2));
 		}
-		else if (YDegree >= 0 && YDegree < 45)
+		else if (YDegree >= 0 && YDegree < vertical)
 		{
 			//Debug.Log("45");
-			animator.SetFloat("Body_Vertical_f", YDegree / 45.0f);
+			animator.SetFloat("Body_Vertical_f", YDegree / (vertical*2));
 		}
 		//else if (YDegree >= 45 && YDegree < 90)
 		//{

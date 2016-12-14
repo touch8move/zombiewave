@@ -14,10 +14,12 @@ public class InputCtrl : MonoBehaviour {
 	Vector3 CharacterRotate;
 	Transform characterTranform;
 	bool isUITouch;
-
+	public Transform CameraJoint;
 	public CharacterScript characterscript;
 
 	float xAngleLimit;
+	public float limitDegreeHorizontal;
+	public float limitDegreeVertical;
 	// Use this for initialization
 	void Awake()
 	{
@@ -78,35 +80,35 @@ public class InputCtrl : MonoBehaviour {
 
 
 				//Debug.Log("yAngle: " + yAngle);
-				if (Mathf.DeltaAngle(yAngle, characterTranform.eulerAngles.x) < -20)
+				if (Mathf.DeltaAngle(yAngle, 0) < -limitDegreeVertical)
 				{
-					yAngle = 20;
+					yAngle = limitDegreeVertical;
 				}
 
-				if (Mathf.DeltaAngle(yAngle, characterTranform.eulerAngles.x) > 20)
+				if (Mathf.DeltaAngle(yAngle, 0) > limitDegreeVertical)
 				{
-					yAngle = -20;
+					yAngle = -limitDegreeVertical;
 				}
 
 				float deltaAngle = Mathf.DeltaAngle(xAngle, CharacterRotate.y);
 				//Debug.Log("DeltaAngle:" + deltaAngle);
-				if (deltaAngle > 30)
+				if (deltaAngle > limitDegreeHorizontal)
 				{
 					//xAngle = characterTranform.eulerAngles.y-30;
-					xAngle = CharacterRotate.y - 30;
+					xAngle = CharacterRotate.y - limitDegreeHorizontal;
 				}
 
-				if (deltaAngle < -30)
+				if (deltaAngle < -limitDegreeHorizontal)
 				{
 					//xAngle = characterTranform.eulerAngles.y + 30;
-					xAngle = CharacterRotate.y + 30;
+					xAngle = CharacterRotate.y + limitDegreeHorizontal;
 				}
 
 
 				//Camera.main.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
 				characterscript.gameObject.transform.rotation = 
 					Quaternion.Euler(characterTranform.eulerAngles.x, xAngle, 0);
-				Camera.main.transform.localRotation = Quaternion.Euler(yAngle, 0, 0);
+				CameraJoint.localRotation = Quaternion.Euler(yAngle, 0, 0);
 				characterscript.UpdateCharacterDirection(-yAngle);
 				break;
 			case TouchPhase.Ended:

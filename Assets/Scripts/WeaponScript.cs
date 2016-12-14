@@ -134,11 +134,8 @@ public class WeaponScript : MonoBehaviour {
 
 	public void FireWeapon(float xAngle, float yAngle)
 	{
-		if (WeaponReady())
-		{
-			weaponState.Fire(this);
-			ShotArrow(xAngle, yAngle);
-		}
+		weaponState.Fire(this);
+		ShotArrow(xAngle, yAngle);
 	}
 
 	public void ReloadWeapon()
@@ -151,10 +148,10 @@ public class WeaponScript : MonoBehaviour {
 	public void ShotArrow(float yAngle, float xAngle)
 	{
 		GameObject arrow = Instantiate(Arrow);
-		GameObject _startPoint = Instantiate(ShotPoint, ShotPoint.transform.position, Quaternion.Euler(360-xAngle, yAngle+5 + 180, 0.0f));
+		GameObject _startPoint = Instantiate(ShotPoint, ShotPoint.transform.position, Quaternion.Euler(360-xAngle, yAngle + 180, 0.0f));
 		arrow.transform.SetParent(_startPoint.transform);
 		arrow.transform.localPosition = Vector3.zero;
 		arrow.transform.localRotation = Quaternion.Euler(0, 180, 0);
-		arrow.GetComponent<Arrow>().Shot(weaponPower, 5);
+		arrow.GetComponent<Arrow>().Shot(weaponPower, 8);
 	}
 }
