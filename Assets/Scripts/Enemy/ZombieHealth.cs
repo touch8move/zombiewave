@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ZombieHealth : MonoBehaviour {
 
@@ -17,31 +18,48 @@ public class ZombieHealth : MonoBehaviour {
 	bool isSinking;
 	SpawnManager spawnManager;
 	UnityEngine.AI.NavMeshAgent nav;
+
+	public Slider HPGuage;
+	public Text DamageText;
+	//Slider HPGuage;
+	RectTransform rect;
 	void Awake()
 	{
 		anim = GetComponentInChildren<Animator>();
 		//enemyAudio = GetComponent<AudioSource>();
 		hitParticles = GetComponentInChildren<ParticleSystem>();
-		//capsuleCollider = GetComponent <CapsuleCollider> ();
+
 		colliders = GetComponentsInChildren<BoxCollider>();
-		//zombieMovement = GetComponent<ZombieMovement>();
-		//con = FindObjectOfType<Controller>();
 		spawnManager = FindObjectOfType<SpawnManager>();
 		nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		currentHealth = startingHealth;
+		//HPGuage = Instantiate(HPGuageprefab);
+		//Canvas enemyCanvas = transform.FindChild("ECanvas").gameObject.GetComponent<Canvas>();
+		//HPGuage.transform.SetParent(enemyCanvas.transform);
 	}
-
+	void Start()
+	{
+		HPGuage.minValue = 0;
+		HPGuage.maxValue = startingHealth;
+		rect = HPGuage.GetComponent<RectTransform>();
+	}
 
 	void Update()
 	{
+		UpdateHPGuagePosition();
 		if (isSinking)
 		{
 			transform.Translate(-Vector3.up * sinkSpeed * Time.deltaTime);
 		}
 	}
 
+	void UpdateHPGuagePosition()
+	{
+		rect.position = Camera.main.WorldToScreenPoint(transform.position+Vector3.up*3);
+	}
 
-	public void TakeDamage(int amount, Vector3 hitPoint)
+
+	public void TakeDamage(bool isCritical, int amount, Vector3 hitPoint)
 	{
 		if (isDead)
 			return;
@@ -52,10 +70,17 @@ public class ZombieHealth : MonoBehaviour {
 
 		hitParticles.transform.position = hitPoint;
 		hitParticles.Play();
-
+		HPGuage.value = currentHealth;
+		DamageText.text = amount.ToString("N0");
+		if (isCritical)
+		{
+			DamageText.GetComponent<Animator>().SetTrigger("Critical");
+		}
+		else {
+			DamageText.GetComponent<Animator>().SetTrigger("Hit");
+		}
 		if (currentHealth <= 0)
 		{
-			//Death();
 			Killed();
 		}
 	}

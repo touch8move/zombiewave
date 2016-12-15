@@ -32,7 +32,7 @@ public class InputCtrl : MonoBehaviour {
 		//Debug.Log("Character:" + characterTranform.eulerAngles);
 	}
 	
-	void Update()
+	void LateUpdate()
 	{
 		if (isUITouch == false)
 		{

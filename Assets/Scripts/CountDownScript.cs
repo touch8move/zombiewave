@@ -8,6 +8,7 @@ public class CountDownScript : MonoBehaviour {
 	float CurTime;
 	Text TimerText;
 	RectTransform panel;
+	float tmpCurTime;
 	void Awake()
 	{
 		panel = GetComponent<RectTransform>();
@@ -19,16 +20,20 @@ public class CountDownScript : MonoBehaviour {
 	public void CountDownStart()
 	{
 		panel.localPosition = new Vector3(0, 0, 0);
-		CurTime = 3;
+		CurTime = 4;
 		StartCoroutine(CountDown());
 	}
 	IEnumerator CountDown()
 	{
-		while (CurTime > 0)
+		tmpCurTime = CurTime;
+		float tic = 1f;
+		while (CurTime > 1)
 		{
-			CurTime -= Time.deltaTime;
+			CurTime -= tic;
+			tmpCurTime = CurTime;
 			TimerText.text = CurTime.ToString("N0");
-			yield return new WaitForSeconds(0.02f);
+			yield return new WaitForSeconds(tic);
+
 		}
 		TimerText.text = "GO";
 		Invoke("RemovePanel", 1);

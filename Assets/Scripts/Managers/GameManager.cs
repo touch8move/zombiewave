@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
 	public SpawnManager spawnManager;
 	public CountDownScript countdown;
 	public int SpawnCount;
-	//int SpawnCount;
+	public ClearScript cl;
+	public FailScript fl;
+
+	//public RectTransform DamageText;
 	int KillCount;
 	// Use this for initialization
 	void Awake()
@@ -18,6 +21,7 @@ public class GameManager : MonoBehaviour
 	}
 	void Start()
 	{
+		CurrentWave = 1;
 		Invoke("StartGame", 0);
 	}
 
@@ -29,25 +33,26 @@ public class GameManager : MonoBehaviour
 
 	public void StartGame()
 	{
-		countdown.CountDownStart();
+		//countdown.CountDownStart();
+
 		InitGame();
 	}
 
 	void InitGame()
 	{
-		CurrentWave = 1;
-		spawnManager.SetSpawnValue(SpawnCount);
+		spawnManager.SetSpawnValue(SpawnCount+(CurrentWave*2));
 		spawnManager.StartGame();
 	}
 
 	public void ClearGame()
 	{
 		CurrentWave += 1;
+		cl.ShowPanel();
 	}
 
 	public void FailGame()
 	{
-		
+		fl.ShowPanel();
 	}
 
 	public void IncreaseKill()

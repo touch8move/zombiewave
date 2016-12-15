@@ -51,9 +51,11 @@ public class ZombieMovement : MonoBehaviour {
 		if (other.gameObject == target)
 		{
 			playerInRange = true;
-			if(nav.isActiveAndEnabled)
-				nav.enabled = false;
-			//nav.Stop();
+			if (nav.isActiveAndEnabled)
+			{
+				//nav.enabled = false;
+				nav.Stop();
+			}
 		}
 	}
 

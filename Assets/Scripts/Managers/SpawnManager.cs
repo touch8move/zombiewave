@@ -26,6 +26,16 @@ public class SpawnManager : MonoBehaviour {
 	}
 	public void SetSpawnValue(int spawnCount)
 	{
+		if (zombies != null)
+		{
+			//if (zombies.Length > 0)
+			//{
+				for (int i = 0; i < zombies.Length; i++)
+				{
+					Destroy(zombies[i]);
+				}
+			//}
+		}
 		zombies = new GameObject[spawnCount];
 		TotalSpawnCount = spawnCount;
 
