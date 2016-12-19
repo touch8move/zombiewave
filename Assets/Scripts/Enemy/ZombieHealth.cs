@@ -18,7 +18,7 @@ public class ZombieHealth : MonoBehaviour {
 	bool isSinking;
 	SpawnManager spawnManager;
 	UnityEngine.AI.NavMeshAgent nav;
-
+	GameManager gm;
 	public Slider HPGuage;
 	public Text DamageText;
 	//Slider HPGuage;
@@ -28,7 +28,7 @@ public class ZombieHealth : MonoBehaviour {
 		anim = GetComponentInChildren<Animator>();
 		//enemyAudio = GetComponent<AudioSource>();
 		hitParticles = GetComponentInChildren<ParticleSystem>();
-
+		gm = FindObjectOfType<GameManager>();
 		colliders = GetComponentsInChildren<BoxCollider>();
 		spawnManager = FindObjectOfType<SpawnManager>();
 		nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -100,7 +100,7 @@ public class ZombieHealth : MonoBehaviour {
 	{
 		Death();
 		//Point
-
+		gm.KillZombie();
 		//enemyAudio.clip = deathClip;
 		//enemyAudio.Play();
 		//con.Point += scoreValue;

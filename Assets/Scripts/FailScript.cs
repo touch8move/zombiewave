@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class FailScript : MonoBehaviour {
 	RectTransform rect;
+	Vector3 origin;
 	void Awake()
 	{
 		rect = GetComponent<RectTransform>();
+		origin = rect.localPosition;
 	}
 
 	void Start () {
@@ -18,7 +20,7 @@ public class FailScript : MonoBehaviour {
 	}
 	public void HidePanel()
 	{
-		rect.localPosition = new Vector3(0, 0, 1800);
+		rect.localPosition = origin;
 	}
 	// Update is called once per frame
 	void Update () {

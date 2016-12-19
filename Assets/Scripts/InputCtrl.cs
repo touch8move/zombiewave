@@ -16,14 +16,16 @@ public class InputCtrl : MonoBehaviour {
 	bool isUITouch;
 	public Transform CameraJoint;
 	public CharacterScript characterscript;
-
+	public ClearScript clear;
+	public FailScript fail;
 	float xAngleLimit;
 	public float limitDegreeHorizontal;
 	public float limitDegreeVertical;
+	GameManager gm;
 	// Use this for initialization
 	void Awake()
 	{
-		
+		gm = FindObjectOfType<GameManager>();
 	}
 	void Start()
 	{
@@ -78,34 +80,29 @@ public class InputCtrl : MonoBehaviour {
 				xAngle = xAngTemp + (secondpoint.x - firstpoint.x) / Screen.width * rotationspeed;
 				yAngle = yAngTemp - (secondpoint.y - firstpoint.y) / Screen.height * rotationspeed;
 
-
-				//Debug.Log("yAngle: " + yAngle);
-				if (Mathf.DeltaAngle(yAngle, 0) < -limitDegreeVertical)
+				float deltaAngleY = Mathf.DeltaAngle(yAngle, 0);
+				if (deltaAngleY < -limitDegreeVertical)
 				{
 					yAngle = limitDegreeVertical;
 				}
 
-				if (Mathf.DeltaAngle(yAngle, 0) > limitDegreeVertical)
+				if (deltaAngleY > limitDegreeVertical)
 				{
 					yAngle = -limitDegreeVertical;
 				}
 
 				float deltaAngle = Mathf.DeltaAngle(xAngle, CharacterRotate.y);
-				//Debug.Log("DeltaAngle:" + deltaAngle);
+
 				if (deltaAngle > limitDegreeHorizontal)
 				{
-					//xAngle = characterTranform.eulerAngles.y-30;
 					xAngle = CharacterRotate.y - limitDegreeHorizontal;
 				}
 
 				if (deltaAngle < -limitDegreeHorizontal)
 				{
-					//xAngle = characterTranform.eulerAngles.y + 30;
 					xAngle = CharacterRotate.y + limitDegreeHorizontal;
 				}
 
-
-				//Camera.main.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
 				characterscript.gameObject.transform.rotation = 
 					Quaternion.Euler(characterTranform.eulerAngles.x, xAngle, 0);
 				CameraJoint.localRotation = Quaternion.Euler(yAngle, 0, 0);
@@ -113,7 +110,15 @@ public class InputCtrl : MonoBehaviour {
 				break;
 			case TouchPhase.Ended:
 				// TODO
-				characterscript.Shot(xAngle, yAngle);
+				if (gm.phase == GameManager.GamePhase.Playing)
+				{
+					characterscript.Shot(xAngle, yAngle);
+				}
+				else if (gm.phase == GameManager.GamePhase.Clear || gm.phase == GameManager.GamePhase.Clear)
+				{
+					gm.Next();
+				}
+
 				break;
 		}
 	}

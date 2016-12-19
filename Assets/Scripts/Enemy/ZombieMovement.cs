@@ -5,7 +5,7 @@ using UnityEngine;
 public class ZombieMovement : MonoBehaviour {
 
 	ZombieHealth zombieHealth;
-	ZombieAttack zombieAttack;
+	//ZombieAttack zombieAttack;
 	public float MoveSpeed;
 	//public int Damage;
 	GameObject target;
@@ -14,14 +14,14 @@ public class ZombieMovement : MonoBehaviour {
 	UnityEngine.AI.NavMeshAgent nav;
 	//public bool isMelee;
 	GameManager gm;
-	TargetScript targetScript;
+	//TargetScript targetScript;
 	public bool playerInRange;
 	void Awake()
 	{
-		zombieAttack = GetComponent<ZombieAttack>();
+		//zombieAttack = GetComponent<ZombieAttack>();
 		gm = FindObjectOfType<GameManager>();
 		target = gm.target;
-		targetScript = target.GetComponent<TargetScript>();
+		//targetScript = target.GetComponent<TargetScript>();
 		zombieHealth = GetComponent<ZombieHealth>();
 		ani = GetComponentInChildren<Animator>();
 		nav = GetComponent<UnityEngine.AI.NavMeshAgent>();

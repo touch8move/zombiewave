@@ -28,7 +28,7 @@ public class WeaponScript : MonoBehaviour {
 			if (weapon.ReloadCurrentDelay > weapon.ReloadDelay)
 			{
 				weapon.ReloadCurrentDelay = 0;
-				weapon.weaponState = new IdleState();
+				//weapon.weaponState = new IdleState();
 			}
 			//throw new NotImplementedException();
 		}
@@ -37,13 +37,13 @@ public class WeaponScript : MonoBehaviour {
 	{
 		public override void Fire(WeaponScript weapon)
 		{
-			weapon.weaponState = new FireState();
+			//weapon.weaponState = new FireState();
 			//throw new NotImplementedException();
 		}
 
 		public override void Reload(WeaponScript weapon)
 		{
-			weapon.weaponState = new ReloadState();
+			//weapon.weaponState = new ReloadState();
 			//throw new NotImplementedException();
 		}
 
@@ -70,7 +70,7 @@ public class WeaponScript : MonoBehaviour {
 			if (weapon.shotCurrentDelay >= weapon.shotDelay)
 			{
 				weapon.shotCurrentDelay = 0;
-				weapon.weaponState = new IdleState();
+				//weapon.weaponState = new IdleState();
 			}
 			//throw new NotImplementedException();
 		}
@@ -86,7 +86,7 @@ public class WeaponScript : MonoBehaviour {
 	public float ReloadDelay;
 	public float ReloadCurrentDelay;
 
-	State weaponState;
+	//State weaponState;
 	public WeaponManager weaponManager;
 	public int WeaponIndex;
 	//public Transform weaponPoint;
@@ -95,7 +95,7 @@ public class WeaponScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		weaponState = new IdleState();
+		//weaponState = new IdleState();
 		//weaponManager = FindObjectOfType<WeaponManager>();
 	}
 
@@ -119,28 +119,28 @@ public class WeaponScript : MonoBehaviour {
 	public bool WeaponReady()
 	{
 		bool ret = false;;
-		if (weaponState.GetType() == typeof(IdleState))
-		{
-			ret = true;
-		}
+		////if (weaponState.GetType() == typeof(IdleState))
+		//{
+		//	ret = true;
+		//}
 
 		return ret;
 	}
 	// Update is called once per frame
 	void Update()
 	{
-		weaponState.StateUpdate(this);
+		//weaponState.StateUpdate(this);
 	}
 
 	public void FireWeapon(float xAngle, float yAngle)
 	{
-		weaponState.Fire(this);
+		//weaponState.Fire(this);
 		ShotArrow(xAngle, yAngle);
 	}
 
 	public void ReloadWeapon()
 	{
-		weaponState.Reload(this);
+		//weaponState.Reload(this);
 	}
 
 

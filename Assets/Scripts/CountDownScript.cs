@@ -17,21 +17,23 @@ public class CountDownScript : MonoBehaviour {
 	void Start () {
 		
 	}
-	public void CountDownStart()
+	public void CountDownStart(int wave)
 	{
+		TimerText.text = "Wave " + wave;
 		panel.localPosition = new Vector3(0, 0, 0);
 		CurTime = 4;
 		StartCoroutine(CountDown());
 	}
 	IEnumerator CountDown()
 	{
+		yield return new WaitForSeconds(2);
 		tmpCurTime = CurTime;
 		float tic = 1f;
-		while (CurTime > 1)
+		while (tmpCurTime > 1)
 		{
-			CurTime -= tic;
-			tmpCurTime = CurTime;
-			TimerText.text = CurTime.ToString("N0");
+			tmpCurTime -= tic;
+			//tmpCurTime = CurTime;
+			TimerText.text = tmpCurTime.ToString("N0");
 			yield return new WaitForSeconds(tic);
 
 		}
@@ -41,7 +43,7 @@ public class CountDownScript : MonoBehaviour {
 
 	void RemovePanel()
 	{
-		panel.position = new Vector3(0, 0, 1800);
+		panel.position = new Vector3(0, 0, 3600);
 		//StartGame
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CharacterScript : MonoBehaviour {
 	//public float speed = 3f;
 
@@ -17,7 +16,6 @@ public class CharacterScript : MonoBehaviour {
 	bool fullauto_b;
 	bool shoot_b;
 	bool reload_b;
-	//bool static_b;
 
 	float head_horizontal_f;
 	float head_vertical_f;
@@ -35,40 +33,50 @@ public class CharacterScript : MonoBehaviour {
 	//public Transform head;
 	//public Transform body;
 	// Use this for initialization
+	bool isShootable;
+	int ShotIdle;
+	int ShotAndReload;
 	void Start () {
-		//WeaponType_int = 3;
+		isShootable = true;
+		// crossbow & rifleType
 		animator.SetInteger("WeaponType_int", 6);
+		weapon.ChangeWeapon(12, rightHand);
+
+		//default setting body & head
 		animator.SetFloat("Body_Horizontal_f", 0.6f);
 		animator.SetFloat("Head_Horizontal_f", -0.2f);
-		//weapon = new WeaponScript();
-		weapon.ChangeWeapon(12, rightHand);
-		//vertical_down = -30.0f;
 		vertical = 50.0f;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		//if (weapon.WeaponReady())
-		//{
-		//	animator.SetBool("Shoot_b", false);
-		//}
+		animator.speed = 1f;
+		//Animator.StringToHash("
+		ShotIdle = Animator.StringToHash("Weapons.Character_Rifle_Idle_0");
+		ShotAndReload = Animator.StringToHash("Weapons.Character_Rifle_Shoot_Reload_0");
 	}
 
+	public AnimationClip GetAnimationClip(string name)
+	{
+		if (!animator) return null; // no animator
 
+		foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+		{
+			if (clip.name == name)
+			{
+				return clip;
+			}
+		}
+		return null; // no clip by that name
+	}
 
 	public void Shot(float xAngle, float yAngle)
 	{
-		if (weapon.WeaponReady())
+		if (
+			animator.GetCurrentAnimatorStateInfo(animator.GetLayerIndex("Weapons")).fullPathHash == ShotIdle 
+		)
 		{
-			//animator.SetBool("Shoot_b", true);
-			Debug.Log("xAngle: " + xAngle + " yAngle: " + yAngle);
+			//isShootable = false;
 			animator.SetTrigger("Shoot_t");
+
 			weapon.FireWeapon(xAngle, yAngle);
 		}
-	}
-
-	public void Reload()
-	{
 	}
 
 	public void UpdateCharacterDirection(float YDegree)

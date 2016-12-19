@@ -7,13 +7,14 @@ public class SpawnManager : MonoBehaviour {
 	public Transform[] spawnPoint;
 	public Transform OriginspawnPoint;
 	public int StageZombieCount;
-	int TotalSpawnCount;
+	public int TotalSpawnCount;
 	GameObject[] zombies;
 	public GameObject ZombieObject;
 	public float GenTime;
 	float curGenTime;
 	bool GeneratingZombie;
 	int curZombieIndex;
+	int objectCount;
 	// Use this for initialization
 	void Awake()
 	{
@@ -21,20 +22,20 @@ public class SpawnManager : MonoBehaviour {
 		curZombieIndex = 0;
 	}
 	void Start () {
+		//objectCount = 0;
 		//InvokeRepeating("GenerateZombie", 1, 1);
 		//GeneratingZombie = true;
 	}
+
 	public void SetSpawnValue(int spawnCount)
 	{
+		curZombieIndex = 0;
 		if (zombies != null)
 		{
-			//if (zombies.Length > 0)
-			//{
-				for (int i = 0; i < zombies.Length; i++)
-				{
-					Destroy(zombies[i]);
-				}
-			//}
+			for (int i = 0; i < zombies.Length; i++)
+			{
+				Destroy(zombies[i]);
+			}
 		}
 		zombies = new GameObject[spawnCount];
 		TotalSpawnCount = spawnCount;
@@ -42,6 +43,9 @@ public class SpawnManager : MonoBehaviour {
 		for (int i = 0; i < zombies.Length; i++)
 		{
 			zombies[i] = Instantiate(ZombieObject, OriginspawnPoint.position, Quaternion.identity);
+
+			zombies[i].name = objectCount.ToString();
+			objectCount++;
 		}
 	}
 
