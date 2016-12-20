@@ -9,10 +9,12 @@ public class CountDownScript : MonoBehaviour {
 	Text TimerText;
 	RectTransform panel;
 	float tmpCurTime;
+	Vector3 origin;
 	void Awake()
 	{
 		panel = GetComponent<RectTransform>();
 		TimerText = GetComponentInChildren<Text>();
+		origin = panel.localPosition;
 	}
 	void Start () {
 		
@@ -43,7 +45,7 @@ public class CountDownScript : MonoBehaviour {
 
 	void RemovePanel()
 	{
-		panel.position = new Vector3(0, 0, 3600);
+		panel.position = origin;
 		//StartGame
 	}
 }

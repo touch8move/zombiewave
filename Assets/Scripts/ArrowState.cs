@@ -3,37 +3,65 @@ using System.Collections;
 
 public class ArrowState : MonoBehaviour {
 	public Arrow arrowCtrl;
+	int cnt;
+	CapsuleCollider cc;
+
+	void Awake()
+	{
+		cc = GetComponent<CapsuleCollider>();
+	}
 	// Use this for initialization
 	void Start () {
-	
+		cnt = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		//if (transform.position.z > 0)
-		//{
-			//arrowCtrl.RemoveParent(null);
-			//Destroy(gameObject);
-		//}
-			//Destroy(gameObject);
-	}
-
-	void OnTriggerEnter(Collider other)
+	void Update()
 	{
-		if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
+		
+	}
+	//void OnTriggerEnter(Collider other)
+	//{
+	//	//Debug.Log("otherName:" + other.name);
+	//	//cc.isTrigger = 
+	//	cc.enabled = false;
+
+	//	if(other.gameObject.layer == LayerMask.NameToLayer("Shootable"))
+	//	{
+	//		//Debug.Log(other.tag);
+	//		int Damage = arrowCtrl.damage;
+	//		bool isCritical = false;
+	//		if (other.tag == "Head")
+	//		{
+	//			Debug.Log("Head");
+	//			Damage =Mathf.CeilToInt(Damage * 2.5f);
+	//			isCritical = true;
+	//		}
+	//		//other.
+	//		//other.attachedRigidbody.
+	//		//other.
+	//		other.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(isCritical, Damage, other.transform.position);
+	//	}
+	//	arrowCtrl.RemoveParent();
+	//}
+	void OnCollisionEnter(Collision collision)
+	{
+		cc.enabled = false;
+		arrowCtrl.isMoving = false;
+		//collision. = true;
+		//cc.isTrigger = true;
+		//collision.gameObject.GetComponent<Arrow>(
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 		{
-			Debug.Log(other.tag);
 			int Damage = arrowCtrl.damage;
 			bool isCritical = false;
-			if (other.tag == "Head")
+			if (collision.collider.tag == "Head")
 			{
 				Debug.Log("Head");
-				Damage =Mathf.CeilToInt(Damage * 2.5f);
+				Damage = Mathf.CeilToInt(Damage * 2.5f);
 				isCritical = true;
 			}
-			other.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(isCritical, Damage, other.transform.position);
+			collision.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(isCritical, Damage, collision.contacts[0].point);
 		}
-		arrowCtrl.RemoveParent(other);
-		Destroy(gameObject);
+		arrowCtrl.RemoveParent(collision.gameObject);
+		//Destroy(gameObject);
 	}
 }

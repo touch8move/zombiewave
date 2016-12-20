@@ -39,23 +39,18 @@ public class GameManager : MonoBehaviour
 	{
 		InitGame(1);
 	}
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
 
 	void InitGame(int wave)
 	{
 		CurrentWave = wave;
 		phase = GamePhase.Init;
-		Invoke("StartGame", 0);
+		//Invoke("StartGame", 0);
 		KillCount = 0;
-		countdown.CountDownStart(CurrentWave);
+		//countdown.CountDownStart(CurrentWave);
 		SpawnTotalCount = SpawnInitCount + (CurrentWave * 2);
-		zombieCountScript.SetZombieCount(SpawnTotalCount);
-		spawnManager.SetSpawnValue(SpawnTotalCount);
-		spawnManager.StartGame();
+		//zombieCountScript.SetZombieCount(SpawnTotalCount);
+		//spawnManager.SetSpawnValue(SpawnTotalCount);
+		//spawnManager.StartGame();
 		phase = GamePhase.Playing;
 	}
 

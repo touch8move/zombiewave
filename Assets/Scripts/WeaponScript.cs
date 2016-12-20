@@ -91,13 +91,6 @@ public class WeaponScript : MonoBehaviour {
 	public int WeaponIndex;
 	//public Transform weaponPoint;
 	GameObject weaponObject;
-	//float 
-
-	// Use this for initialization
-	void Start () {
-		//weaponState = new IdleState();
-		//weaponManager = FindObjectOfType<WeaponManager>();
-	}
 
 	public void ChangeWeapon(int weaponIndex, Transform rightHandPosition)
 	{
@@ -106,30 +99,7 @@ public class WeaponScript : MonoBehaviour {
 		weaponObject.transform.SetParent(rightHandPosition);
 		weaponObject.transform.localPosition = Vector3.zero;
 		weaponObject.transform.localRotation = Quaternion.Euler(0, 90, 90);
-
 		ShotPoint = weaponObject.transform.FindChild("BulletStartPoint").gameObject;
-		//if (ShotPoint)
-		//{
-		//	Debug.Log("Have");
-		//}
-		//else {
-		//	Debug.Log("Null");
-		//}
-	}
-	public bool WeaponReady()
-	{
-		bool ret = false;;
-		////if (weaponState.GetType() == typeof(IdleState))
-		//{
-		//	ret = true;
-		//}
-
-		return ret;
-	}
-	// Update is called once per frame
-	void Update()
-	{
-		//weaponState.StateUpdate(this);
 	}
 
 	public void FireWeapon(float xAngle, float yAngle)
@@ -138,14 +108,7 @@ public class WeaponScript : MonoBehaviour {
 		ShotArrow(xAngle, yAngle);
 	}
 
-	public void ReloadWeapon()
-	{
-		//weaponState.Reload(this);
-	}
-
-
-
-	public void ShotArrow(float yAngle, float xAngle)
+	void ShotArrow(float yAngle, float xAngle)
 	{
 		GameObject arrow = Instantiate(Arrow);
 		GameObject _startPoint = Instantiate(ShotPoint, ShotPoint.transform.position, Quaternion.Euler(360-xAngle, yAngle + 180, 0.0f));

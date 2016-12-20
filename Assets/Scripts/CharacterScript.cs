@@ -33,11 +33,11 @@ public class CharacterScript : MonoBehaviour {
 	//public Transform head;
 	//public Transform body;
 	// Use this for initialization
-	bool isShootable;
+	//bool isShootable;
 	int ShotIdle;
 	int ShotAndReload;
 	void Start () {
-		isShootable = true;
+		//isShootable = true;
 		// crossbow & rifleType
 		animator.SetInteger("WeaponType_int", 6);
 		weapon.ChangeWeapon(12, rightHand);
@@ -46,7 +46,7 @@ public class CharacterScript : MonoBehaviour {
 		animator.SetFloat("Body_Horizontal_f", 0.6f);
 		animator.SetFloat("Head_Horizontal_f", -0.2f);
 		vertical = 50.0f;
-		animator.speed = 1f;
+		animator.speed = 2f;
 		//Animator.StringToHash("
 		ShotIdle = Animator.StringToHash("Weapons.Character_Rifle_Idle_0");
 		ShotAndReload = Animator.StringToHash("Weapons.Character_Rifle_Shoot_Reload_0");

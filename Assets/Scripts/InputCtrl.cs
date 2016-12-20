@@ -114,7 +114,7 @@ public class InputCtrl : MonoBehaviour {
 				{
 					characterscript.Shot(xAngle, yAngle);
 				}
-				else if (gm.phase == GameManager.GamePhase.Clear || gm.phase == GameManager.GamePhase.Clear)
+				else if (gm.phase == GameManager.GamePhase.Clear || gm.phase == GameManager.GamePhase.Fail)
 				{
 					gm.Next();
 				}

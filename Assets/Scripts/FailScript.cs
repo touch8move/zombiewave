@@ -22,8 +22,4 @@ public class FailScript : MonoBehaviour {
 	{
 		rect.localPosition = origin;
 	}
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

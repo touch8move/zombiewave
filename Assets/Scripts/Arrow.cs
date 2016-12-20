@@ -48,14 +48,17 @@ public class Arrow : MonoBehaviour {
 
 	}
 
-	public void RemoveParent(Collider other)
+	public void RemoveParent(GameObject go)
 	{
 
 		if (transform.parent)
 		{
 			GameObject parent = transform.parent.gameObject;
-			//transform.SetParent(other.transform);
-			Destroy(parent);
+			transform.SetParent(go.transform);
+			if (parent.name == "BulletStartPoint")
+			{
+				Destroy(parent);
+			}
 		}
 	}
 }

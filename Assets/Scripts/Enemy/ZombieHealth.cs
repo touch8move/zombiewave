@@ -23,8 +23,11 @@ public class ZombieHealth : MonoBehaviour {
 	public Text DamageText;
 	//Slider HPGuage;
 	RectTransform rect;
+	GameObject head;
+	bool hithead;
 	void Awake()
 	{
+		hithead = false;
 		anim = GetComponentInChildren<Animator>();
 		//enemyAudio = GetComponent<AudioSource>();
 		hitParticles = GetComponentInChildren<ParticleSystem>();
@@ -36,6 +39,14 @@ public class ZombieHealth : MonoBehaviour {
 		//HPGuage = Instantiate(HPGuageprefab);
 		//Canvas enemyCanvas = transform.FindChild("ECanvas").gameObject.GetComponent<Canvas>();
 		//HPGuage.transform.SetParent(enemyCanvas.transform);
+		//head = transform.FindChild
+		foreach (Transform tr in GetComponentsInChildren<Transform>())
+		{
+			if (tr.gameObject.name == "Head_jnt")
+			{
+				head = tr.gameObject;
+			}
+		}
 	}
 	void Start()
 	{
@@ -74,10 +85,12 @@ public class ZombieHealth : MonoBehaviour {
 		DamageText.text = amount.ToString("N0");
 		if (isCritical)
 		{
+			hithead = true;
 			DamageText.GetComponent<Animator>().SetTrigger("Critical");
 		}
 		else {
 			DamageText.GetComponent<Animator>().SetTrigger("Hit");
+			hithead = false;
 		}
 		if (currentHealth <= 0)
 		{
@@ -88,7 +101,10 @@ public class ZombieHealth : MonoBehaviour {
 	void Death()
 	{
 		isDead = true;
-		nav.Stop();
+		if (nav.isActiveAndEnabled)
+		{
+			nav.Stop();
+		}
 		//capsuleCollider.isTrigger = true;
 		for (int i = 0; i < colliders.Length; i++)
 		{
@@ -100,6 +116,10 @@ public class ZombieHealth : MonoBehaviour {
 	{
 		Death();
 		//Point
+		if (hithead)
+		{
+			Destroy(head);
+		}
 		gm.KillZombie();
 		//enemyAudio.clip = deathClip;
 		//enemyAudio.Play();
@@ -111,7 +131,7 @@ public class ZombieHealth : MonoBehaviour {
 	public void StartSinking()
 	{
 		GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-		GetComponent<Rigidbody>().isKinematic = true;
+		//GetComponent<Rigidbody>().isKinematic = true;
 		isSinking = true;
 
 		//Destroy(gameObject, 2f);

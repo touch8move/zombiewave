@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TargetScript : MonoBehaviour {
 	//public GameObject Target;
+	GameManager gm;
 	public Slider TargetHPSlider;
 	public float TargetHealth;
 	float targetCurrentHealth;
@@ -32,6 +33,7 @@ public class TargetScript : MonoBehaviour {
 	void Awake()
 	{
 		ani = GetComponentInChildren<Animator>();
+		gm = FindObjectOfType<GameManager>();
 	}
 	void Start () {
 		isAlive = true;
@@ -50,5 +52,9 @@ public class TargetScript : MonoBehaviour {
 	{
 		Debug.Log("TakeDamage:");
 		TargetCurrentHealth -= damage;
+		if (TargetCurrentHealth <= 0)
+		{
+			gm.FailGame();
+		}
 	}
 }
