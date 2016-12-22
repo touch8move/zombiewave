@@ -40,25 +40,25 @@ public class Arrow : MonoBehaviour {
 
 	public void Shot(float firstSpeed, float firstAngle)
 	{
-		Debug.Log("Shot");
 		Power = firstSpeed;
 		angle = firstAngle;
-
 		isMoving = true;
-
 	}
 
 	public void RemoveParent(GameObject go)
 	{
-
+		//Debug.Log("Name:" + go.name);
 		if (transform.parent)
 		{
+			
 			GameObject parent = transform.parent.gameObject;
+			Debug.Log("Parent: " + parent.name);
 			transform.SetParent(go.transform);
-			if (parent.name == "BulletStartPoint")
-			{
-				Destroy(parent);
-			}
+			//if (parent.name == "BulletStartPoint(")
+			//{
+			Debug.Log("Destroy: " + parent.name);
+			//Destroy(parent);
+			//}
 		}
 	}
 }

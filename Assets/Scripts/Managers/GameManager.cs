@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 	ZombieCountScript zombieCountScript;
 	public ClearScript cl;
 	public FailScript fl;
+
+	public Image CriticalImage;
 	public enum GamePhase
 	{
 		Init,
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		InitGame(1);
+		CriticalImage.enabled = false;
 	}
 	public void RestartGame()
 	{
@@ -44,20 +47,21 @@ public class GameManager : MonoBehaviour
 	{
 		CurrentWave = wave;
 		phase = GamePhase.Init;
-		//Invoke("StartGame", 0);
 		KillCount = 0;
-		//countdown.CountDownStart(CurrentWave);
+		countdown.CountDownStart(CurrentWave);
 		SpawnTotalCount = SpawnInitCount + (CurrentWave * 2);
-		//zombieCountScript.SetZombieCount(SpawnTotalCount);
-		//spawnManager.SetSpawnValue(SpawnTotalCount);
-		//spawnManager.StartGame();
+		zombieCountScript.SetZombieCount(SpawnTotalCount);
+		spawnManager.SetSpawnValue(SpawnTotalCount);
+		spawnManager.StartGame();
 		phase = GamePhase.Playing;
 	}
 
 	public void ClearGame()
 	{
+		PlayerPrefs.SetInt("Wave", CurrentWave);
 		CurrentWave += 1;
 		phase = GamePhase.Clear;
+
 		//Invoke
 		cl.ShowPanel();
 	}
@@ -94,5 +98,24 @@ public class GameManager : MonoBehaviour
 			fl.HidePanel();
 		}
 		InitGame(CurrentWave);
+	}
+
+	public void HitCritical()
+	{
+		CriticalImage.enabled = true;
+		StartCoroutine(CriticalIncreaseScale());
+	}
+
+	IEnumerator CriticalIncreaseScale()
+	{
+		Vector3 scale = CriticalImage.GetComponent<RectTransform>().localScale;
+		while (scale.x < 1)
+		{
+			scale = scale + new Vector3(0.2f, 0.2f, 1);
+			CriticalImage.GetComponent<RectTransform>().localScale = scale;
+			yield return new WaitForSeconds(0.02f);
+		}
+		yield return new WaitForSeconds(1);
+		CriticalImage.enabled = false;
 	}
 }

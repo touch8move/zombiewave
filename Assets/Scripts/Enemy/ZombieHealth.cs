@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class ZombieHealth : MonoBehaviour {
 
-	public int startingHealth = 100;
+	public int startingHealth;
 	public int currentHealth;
 	public float sinkSpeed = 2.5f;
 	public int scoreValue = 10;
 	ZombieMovement zombieMovement;
 	Animator anim;
-	//AudioSource enemyAudio;
+	AudioSource HitSound;
+	AudioSource CriSound;
 	ParticleSystem hitParticles;
 	BoxCollider[] colliders;
 	bool isDead;
@@ -36,6 +37,8 @@ public class ZombieHealth : MonoBehaviour {
 		spawnManager = FindObjectOfType<SpawnManager>();
 		nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		currentHealth = startingHealth;
+		HitSound = GetComponentInChildren<AudioSource>();
+		CriSound = GetComponentInChildren<AudioSource>();
 		//HPGuage = Instantiate(HPGuageprefab);
 		//Canvas enemyCanvas = transform.FindChild("ECanvas").gameObject.GetComponent<Canvas>();
 		//HPGuage.transform.SetParent(enemyCanvas.transform);
@@ -87,10 +90,13 @@ public class ZombieHealth : MonoBehaviour {
 		{
 			hithead = true;
 			DamageText.GetComponent<Animator>().SetTrigger("Critical");
+			CriSound.Play();
+			gm.HitCritical();
 		}
 		else {
 			DamageText.GetComponent<Animator>().SetTrigger("Hit");
 			hithead = false;
+			HitSound.Play();
 		}
 		if (currentHealth <= 0)
 		{
@@ -118,32 +124,25 @@ public class ZombieHealth : MonoBehaviour {
 		//Point
 		if (hithead)
 		{
+			Debug.Log("ZombieRemoveHead");
 			Destroy(head);
 		}
 		gm.KillZombie();
-		//enemyAudio.clip = deathClip;
-		//enemyAudio.Play();
-		//con.Point += scoreValue;
-		//StartSinking();
+
 		Invoke("StartSinking", 2f);
 	}
 
 	public void StartSinking()
 	{
 		GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-		//GetComponent<Rigidbody>().isKinematic = true;
 		isSinking = true;
 
-		//Destroy(gameObject, 2f);
-		//Invoke
-		//Invoke();
 		Invoke("ReturnZombie", 1);
 	}
 
 	void ReturnZombie()
 	{
-		//
-		gameObject.transform.position = spawnManager.OriginspawnPoint.position;
+		gameObject.transform.position = spawnManager.ReturnZombiePoint();
 		gameObject.SetActive(false);
 	}
 

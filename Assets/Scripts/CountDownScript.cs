@@ -28,24 +28,23 @@ public class CountDownScript : MonoBehaviour {
 	}
 	IEnumerator CountDown()
 	{
-		yield return new WaitForSeconds(2);
-		tmpCurTime = CurTime;
-		float tic = 1f;
-		while (tmpCurTime > 1)
-		{
-			tmpCurTime -= tic;
-			//tmpCurTime = CurTime;
-			TimerText.text = tmpCurTime.ToString("N0");
-			yield return new WaitForSeconds(tic);
+		yield return new WaitForSeconds(1.5f);
+		//tmpCurTime = CurTime;
+		//float tic = 1f;
+		//while (tmpCurTime > 1)
+		//{
+		//	tmpCurTime -= tic;
+		//	//tmpCurTime = CurTime;
+		//	TimerText.text = tmpCurTime.ToString("N0");
+		//	yield return new WaitForSeconds(tic);
 
-		}
+		//}
 		TimerText.text = "GO";
-		Invoke("RemovePanel", 1);
+		Invoke("RemovePanel", 1f);
 	}
 
 	void RemovePanel()
 	{
 		panel.position = origin;
-		//StartGame
 	}
 }

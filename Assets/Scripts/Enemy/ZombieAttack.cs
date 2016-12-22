@@ -42,7 +42,7 @@ public class ZombieAttack : MonoBehaviour {
 		{
 			//anim.SetTrigger("PlayerDead");
 			// Game End
-			Debug.Log("Game End");
+			//Debug.Log("Game End");
 		}
 	}
 

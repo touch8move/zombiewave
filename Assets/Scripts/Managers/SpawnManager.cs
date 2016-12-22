@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 	public TargetScript target;
-	public Transform[] spawnPoint;
-	public Transform OriginspawnPoint;
+	Transform[] spawnPoint;
 	public int StageZombieCount;
 	public int TotalSpawnCount;
-	GameObject[] zombies;
+	public GameObject SpawnGroup;
+	public GameObject[] zombies;
 	public GameObject ZombieObject;
 	public float GenTime;
 	float curGenTime;
 	bool GeneratingZombie;
 	int curZombieIndex;
 	int objectCount;
-	// Use this for initialization
+	Vector3 OriginPoint;
 	void Awake()
 	{
-		//zombies = new GameObject[
 		curZombieIndex = 0;
+		OriginPoint = new Vector3(0, 0, 3000);
+		spawnPoint = SpawnGroup.transform.GetComponentsInChildren<Transform>();
 	}
-	void Start () {
-		//objectCount = 0;
-		//InvokeRepeating("GenerateZombie", 1, 1);
-		//GeneratingZombie = true;
+	void Start()
+	{
+
 	}
 
 	public void SetSpawnValue(int spawnCount)
@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour {
 
 		for (int i = 0; i < zombies.Length; i++)
 		{
-			zombies[i] = Instantiate(ZombieObject, OriginspawnPoint.position, Quaternion.identity);
+			zombies[i] = Instantiate(ZombieObject, OriginPoint, Quaternion.identity);
 
 			zombies[i].name = objectCount.ToString();
 			objectCount++;
@@ -53,19 +53,20 @@ public class SpawnManager : MonoBehaviour {
 	{
 		GeneratingZombie = true;
 	}
-	// Update is called once per frame
-	void Update () {
+
+	void Update()
+	{
 		if (GeneratingZombie)
 		{
 			curGenTime += Time.deltaTime;
 			if (curGenTime > GenTime)
 			{
-				//GenerateZombie();
 				CallZombie();
 				curGenTime = 0;
 			}
 		}
 	}
+
 	void CallZombie()
 	{
 		int index = Random.Range(0, spawnPoint.Length);
@@ -78,6 +79,11 @@ public class SpawnManager : MonoBehaviour {
 		}
 	}
 
+	void UpdateZombieHp()
+	{
+		
+	}
+
 	void GenerateZombie()
 	{
 		int index = Random.Range(0, spawnPoint.Length);
@@ -87,5 +93,10 @@ public class SpawnManager : MonoBehaviour {
 		{
 			GeneratingZombie = false;
 		}
+	}
+
+	public Vector3 ReturnZombiePoint()
+	{
+		return OriginPoint;
 	}
 }

@@ -17,6 +17,6 @@ public class ClearScript : MonoBehaviour {
 	}
 	public void HidePanel()
 	{
-		rect.localPosition = new Vector3(0, 0, 1800);
+		rect.localPosition = origin;
 	}
 }

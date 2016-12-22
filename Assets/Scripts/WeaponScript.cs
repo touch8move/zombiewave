@@ -85,13 +85,16 @@ public class WeaponScript : MonoBehaviour {
 	public float shotCurrentDelay;
 	public float ReloadDelay;
 	public float ReloadCurrentDelay;
-
+	AudioSource audio;
 	//State weaponState;
 	public WeaponManager weaponManager;
 	public int WeaponIndex;
 	//public Transform weaponPoint;
 	GameObject weaponObject;
-
+	void Awake()
+	{
+		audio = GetComponentInChildren<AudioSource>();
+	}
 	public void ChangeWeapon(int weaponIndex, Transform rightHandPosition)
 	{
 		weaponObject = Instantiate(weaponManager.weapons[weaponIndex]);
@@ -116,5 +119,6 @@ public class WeaponScript : MonoBehaviour {
 		arrow.transform.localPosition = Vector3.zero;
 		arrow.transform.localRotation = Quaternion.Euler(0, 180, 0);
 		arrow.GetComponent<Arrow>().Shot(weaponPower, 8);
+		audio.Play();
 	}
 }

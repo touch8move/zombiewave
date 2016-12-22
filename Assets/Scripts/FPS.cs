@@ -5,7 +5,8 @@ public class FPS : MonoBehaviour
 {
 
 	public Text FpsLabel;
-
+	//public Text InputLabel;
+	public InputCtrl inputctrl;
 	public float updateInterval = 0.5F;
 
 	private float accum = 0; // FPS accumulated over the interval
@@ -34,7 +35,7 @@ public class FPS : MonoBehaviour
 			string format = System.String.Format("{0:F2} FPS", fps);
 
 			FpsLabel.text = format;
-
+			//InputLabel.text = inputctrl.TouchPoint.ToString();
 			timeleft = updateInterval;
 			accum = 0.0F;
 			frames = 0;

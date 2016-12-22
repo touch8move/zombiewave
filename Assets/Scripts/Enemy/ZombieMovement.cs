@@ -31,24 +31,14 @@ public class ZombieMovement : MonoBehaviour {
 
 	void Start()
 	{
-		//if (isMelee)
-		//{
-			ani.SetTrigger("Walk");
-			//Debug.Log("MyPos:" + transform.position + "Dest:" + target.position);
-			nav.SetDestination(target.transform.position);
-		//}
-		//if (nav.pathStatus != UnityEngine.AI.NavMeshPathStatus.PathComplete)
-		//{
-		//	Debug.Log("Nav Error");
-		//}
-		//for (int i = 0; i < nav.path.corners.Length; i++)
-		//{
-		//	Debug.Log("Path:" + nav.path.corners[i]);
-		//}
+		ani.SetTrigger("Walk");
+		//Debug.Log("MyPos:" + transform.position + "Dest:" + target.position);
+		nav.SetDestination(target.transform.position);
 	}
+
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject == target)
+		if (other.gameObject.layer == LayerMask.NameToLayer("Target"))
 		{
 			playerInRange = true;
 			if (nav.isActiveAndEnabled)
@@ -59,45 +49,13 @@ public class ZombieMovement : MonoBehaviour {
 		}
 	}
 
-
-	void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject == target)
-		{
-			playerInRange = false;
-		}
-	}
-	void Update()
-	{
-		//if (isMelee)
-		//{
-			//if (CheckReached())
-			//{
-			//	if (nav.isActiveAndEnabled)
-			//		nav.enabled = false;
-			//}
-			//if (!con.IsGameOn)
-			//{
-
-				
-			//}
-		//}
-
-
-		//		if (con.PlayerHP > 0)
-		//		{
-		//			if (enemyHealth.isAlive())
-		//			{
-
-		//				//transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
-		////				if (transform.position.z < -10)
-		////				{
-		////					FindObjectOfType<Controller>().TakeDamage(Damage);
-		////					enemyHealth.LineDeath();
-		////				}
-		//			}
-		//		}
-	}
+	//void OnTriggerExit(Collider other)
+	//{
+	//	if (other.gameObject.layer == LayerMask.NameToLayer("Target"))
+	//	{
+	//		playerInRange = false;
+	//	}
+	//}
 
 	bool CheckReached()
 	{

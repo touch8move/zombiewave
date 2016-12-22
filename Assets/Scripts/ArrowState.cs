@@ -44,24 +44,33 @@ public class ArrowState : MonoBehaviour {
 	//}
 	void OnCollisionEnter(Collision collision)
 	{
-		cc.enabled = false;
-		arrowCtrl.isMoving = false;
-		//collision. = true;
-		//cc.isTrigger = true;
-		//collision.gameObject.GetComponent<Arrow>(
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Shootable"))
+		if (cnt == 0)
 		{
-			int Damage = arrowCtrl.damage;
-			bool isCritical = false;
-			if (collision.collider.tag == "Head")
+			arrowCtrl.isMoving = false;
+			cc.enabled = false;
+			if (collision.gameObject.layer == LayerMask.NameToLayer("Shootable"))
 			{
-				Debug.Log("Head");
-				Damage = Mathf.CeilToInt(Damage * 2.5f);
-				isCritical = true;
+
+				int Damage = arrowCtrl.damage;
+				bool isCritical = false;
+				if (collision.collider.tag == "Head")
+				{
+					//Debug.Log("Head");-
+					Damage = Mathf.CeilToInt(Damage * 2.5f);
+					isCritical = true;
+				}
+				collision.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(isCritical, Damage, collision.contacts[0].point);
+				arrowCtrl.RemoveParent(collision.gameObject);
 			}
-			collision.gameObject.GetComponentInParent<ZombieHealth>().TakeDamage(isCritical, Damage, collision.contacts[0].point);
+			else if (collision.gameObject.layer == LayerMask.NameToLayer("Target"))
+			{
+				Debug.Log("ArrowState Target");
+
+				collision.gameObject.GetComponent<TargetScript>().TakeDamage(arrowCtrl.damage);
+				arrowCtrl.RemoveParent(collision.gameObject);
+			}
 		}
-		arrowCtrl.RemoveParent(collision.gameObject);
-		//Destroy(gameObject);
+		cnt++;
+		//Debug.Log(collision.gameObject.name);
 	}
 }

@@ -46,7 +46,7 @@ public class CharacterScript : MonoBehaviour {
 		animator.SetFloat("Body_Horizontal_f", 0.6f);
 		animator.SetFloat("Head_Horizontal_f", -0.2f);
 		vertical = 50.0f;
-		animator.speed = 2f;
+		//animator.speed = 1f;
 		//Animator.StringToHash("
 		ShotIdle = Animator.StringToHash("Weapons.Character_Rifle_Idle_0");
 		ShotAndReload = Animator.StringToHash("Weapons.Character_Rifle_Shoot_Reload_0");
